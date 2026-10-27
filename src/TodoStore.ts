@@ -63,4 +63,9 @@ export class TodoStore {
   clearCompleted(): void {
     this.todos = this.todos.filter((todo) => !todo.completed);
   }
+
+  /** Removes every todo. */
+  clearAll(): void {
+    this.todos = [];
+  }
 }
