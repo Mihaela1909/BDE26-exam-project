@@ -13,6 +13,11 @@ export const elements = {
     fill: document.getElementById('progress-fill') as HTMLDivElement,
     text: document.getElementById('progress-text') as HTMLParagraphElement,
   },
+  background: {
+    root: document.documentElement,
+    picker: document.getElementById('colorPicker') as HTMLInputElement,
+    resetButton: document.getElementById('reset-background') as HTMLButtonElement,
+  },
   calendarButton: document.getElementById('calendar-button') as HTMLButtonElement,
   datePicker: {
     label: document.getElementById('date-label') as HTMLSpanElement,
