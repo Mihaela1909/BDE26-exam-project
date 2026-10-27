@@ -33,6 +33,11 @@ export class TodoStore {
     return newTodo;
   }
 
+  /** Changes the text of the todo with the given id. Does nothing if it doesn't exist. */
+  updateText(id: number, text: string): void {
+    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, text } : todo));
+  }
+
   /** Removes the todo with the given id. Does nothing if it doesn't exist. */
   remove(id: number): void {
     this.todos = this.todos.filter((todo) => todo.id !== id);

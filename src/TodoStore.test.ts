@@ -28,6 +28,16 @@ describe('TodoStore', () => {
     expect(store.add('New').id).toBe(8);
   });
 
+  it('updates the text of only the todo with the given id', () => {
+    const store = new TodoStore();
+    const first = store.add('First');
+    const second = store.add('Second');
+
+    store.updateText(first.id, 'Changed');
+
+    expect(store.getAll()).toEqual([{ ...first, text: 'Changed' }, second]);
+  });
+
   it('removes only the todo with the given id', () => {
     const store = new TodoStore();
     const first = store.add('First');
