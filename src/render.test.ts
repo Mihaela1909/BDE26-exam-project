@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createTodoItem, renderTodos, setErrorMessage } from './render';
+import { createTodoItem, renderTodos, setErrorMessage, setInputError } from './render';
 
 describe('createTodoItem', () => {
   it('shows HTML in the todo text as plain text', () => {
@@ -51,5 +51,22 @@ describe('setErrorMessage', () => {
     setErrorMessage(element, '');
 
     expect(element.style.display).toBe('none');
+  });
+});
+
+describe('setInputError', () => {
+  it('adds the input-error class when there is an error', () => {
+    const input = document.createElement('input');
+    setInputError(input, true);
+
+    expect(input.classList.contains('input-error')).toBe(true);
+  });
+
+  it('removes the input-error class when the error is gone', () => {
+    const input = document.createElement('input');
+    input.classList.add('input-error');
+    setInputError(input, false);
+
+    expect(input.classList.contains('input-error')).toBe(false);
   });
 });

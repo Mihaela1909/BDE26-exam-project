@@ -34,3 +34,8 @@ export const setErrorMessage = (element: HTMLElement, message: string): void => 
   element.textContent = message;
   element.style.display = message ? 'block' : 'none';
 };
+
+/** Adds or removes the red error styling on `input`. */
+export const setInputError = (input: HTMLInputElement, hasError: boolean): void => {
+  input.classList.toggle('input-error', hasError);
+};
