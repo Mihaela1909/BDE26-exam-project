@@ -215,6 +215,27 @@ h1 {
 }
 
 
+.progress {
+  margin-top: 15px;
+}
+.progress-bar {
+  height: 10px;
+  background: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: #28a745;
+  transition: width 0.3s ease;
+}
+.progress-text {
+  margin: 5px 0 0;
+  font-size: 0.85em;
+  color: #555;
+}
+
 .filters {
   display: flex;
   gap: 5px;

@@ -6,6 +6,11 @@ export const elements = {
   errorMessage: document.getElementById('error-message') as HTMLParagraphElement,
   clearCompletedButton: document.getElementById('clear-completed') as HTMLButtonElement,
   filterButtons: document.querySelectorAll<HTMLButtonElement>('.filter-button'),
+  progress: {
+    bar: document.getElementById('progress-bar') as HTMLDivElement,
+    fill: document.getElementById('progress-fill') as HTMLDivElement,
+    text: document.getElementById('progress-text') as HTMLParagraphElement,
+  },
   calendarButton: document.getElementById('calendar-button') as HTMLButtonElement,
   datePicker: {
     label: document.getElementById('date-label') as HTMLSpanElement,
