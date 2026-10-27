@@ -1,4 +1,4 @@
-import type { Todo } from './types';
+import type { Filter, Todo } from './types';
 import { validateTodoText } from './validation';
 
 /** What the todo list items can ask the app to do. */
@@ -99,6 +99,15 @@ export const renderTodos = (
 ): void => {
   list.replaceChildren(...todos.map((todo) => createTodoItem(todo, handlers, todo.id === editingId)));
   list.querySelector<HTMLInputElement>('.edit-input')?.focus();
+};
+
+/** Highlights the filter button whose `data-filter` matches `filter`. */
+export const setActiveFilter = (buttons: Iterable<HTMLButtonElement>, filter: Filter): void => {
+  for (const button of buttons) {
+    const isActive = button.dataset.filter === filter;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  }
 };
 
 /** Shows `message` in `element`, or hides it when the message is empty. */

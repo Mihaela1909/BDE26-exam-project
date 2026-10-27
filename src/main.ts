@@ -1,11 +1,14 @@
 import './style.css'
 import { elements } from './dom';
-import { renderTodos, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
+import { filterTodos, isFilter } from './filter';
+import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
 import { TodoStore } from './TodoStore';
+import type { Filter } from './types';
 import { validateTodoText } from './validation';
 
 const store = new TodoStore();
 let editingId: number | null = null;
+let currentFilter: Filter = 'all';
 
 const handlers: TodoItemHandlers = {
   onToggle: (id) => {
@@ -35,11 +38,21 @@ const handlers: TodoItemHandlers = {
 const render = (): void => {
   const todos = store.getAll();
 
-  renderTodos(elements.todoList, todos, handlers, editingId);
+  renderTodos(elements.todoList, filterTodos(todos, currentFilter), handlers, editingId);
+  setActiveFilter(elements.filterButtons, currentFilter);
   elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
 };
 
 render();
+
+elements.filterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (!isFilter(button.dataset.filter)) return;
+
+    currentFilter = button.dataset.filter;
+    render();
+  });
+});
 
 elements.clearCompletedButton.addEventListener('click', () => {
   store.clearCompleted();

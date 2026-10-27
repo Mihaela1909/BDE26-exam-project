@@ -4,3 +4,6 @@ export interface Todo {
   text: string;
   completed: boolean;
 }
+
+/** Which todos the list shows. */
+export type Filter = 'all' | 'active' | 'completed';
