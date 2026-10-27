@@ -13,7 +13,7 @@ describe('createTodoItem', () => {
     const onRemove = vi.fn();
     const li = createTodoItem({ id: 42, text: 'Buy milk', completed: false }, onRemove);
 
-    li.querySelector('button')?.click();
+    li.querySelector<HTMLButtonElement>('.remove-button')?.click();
 
     expect(onRemove).toHaveBeenCalledWith(42);
   });
