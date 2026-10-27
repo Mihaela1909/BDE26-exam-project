@@ -10,6 +10,17 @@
     <div id="app"></div>
 <div class="container">
   <h1>My Todo List</h1>
+
+<div class="date-picker">
+  <div class="date-picker-header">
+    <span id="date-label">Today is:</span>
+    <button type="button" id="clear-date" aria-label="Remove due date" hidden>✕</button>
+    <button type="button" id="calendar-button" aria-label="Open calendar">📅</button>
+    <input type="date" id="due-date-input" tabindex="-1" aria-hidden="true" />
+  </div>
+  <div class="week-strip" id="week-strip"></div>
+</div>
+
   <form class="todo-form">
     <input type="text" placeholder="Add a new todo..." id="todo-input"/>   
 <button type="submit">Add</button>

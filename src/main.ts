@@ -1,4 +1,6 @@
 import './style.css'
+import { renderDatePicker } from './datePicker';
+import { toDateKey } from './dates';
 import { elements } from './dom';
 import { filterTodos, isFilter } from './filter';
 import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
@@ -9,6 +11,7 @@ import { validateTodoText } from './validation';
 const store = new TodoStore();
 let editingId: number | null = null;
 let currentFilter: Filter = 'all';
+let selectedDueDate: string | null = null;
 
 const handlers: TodoItemHandlers = {
   onToggle: (id) => {
@@ -24,8 +27,8 @@ const handlers: TodoItemHandlers = {
     editingId = id;
     render();
   },
-  onSave: (id, text) => {
-    store.updateText(id, text);
+  onSave: (id, text, dueDate) => {
+    store.update(id, { text, dueDate });
     editingId = null;
     render();
   },
@@ -35,15 +38,39 @@ const handlers: TodoItemHandlers = {
   },
 };
 
+const selectDueDate = (day: string | null): void => {
+  selectedDueDate = day;
+  render();
+};
+
 const render = (): void => {
   const todos = store.getAll();
+  const today = toDateKey(new Date());
 
-  renderTodos(elements.todoList, filterTodos(todos, currentFilter), handlers, editingId);
+  renderDatePicker(elements.datePicker, today, selectedDueDate, selectDueDate);
+  renderTodos(elements.todoList, filterTodos(todos, currentFilter), handlers, editingId, today);
   setActiveFilter(elements.filterButtons, currentFilter);
   elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
 };
 
 render();
+
+elements.calendarButton.addEventListener('click', () => {
+  const { dateInput } = elements.datePicker;
+
+  // showPicker() opens the browser's calendar; browsers without it fall back to focusing the input
+  try {
+    dateInput.showPicker();
+  } catch {
+    dateInput.focus();
+  }
+});
+
+elements.datePicker.dateInput.addEventListener('change', () => {
+  selectDueDate(elements.datePicker.dateInput.value || null);
+});
+
+elements.datePicker.clearButton.addEventListener('click', () => selectDueDate(null));
 
 elements.filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
@@ -71,7 +98,8 @@ elements.todoForm.addEventListener('submit', (event: Event) => {
     return;
   }
 
-  store.add(text);
+  store.add(text, selectedDueDate ?? undefined);
+  selectedDueDate = null;
   render();
   elements.todoInput.value = '';
   setErrorMessage(elements.errorMessage, '');

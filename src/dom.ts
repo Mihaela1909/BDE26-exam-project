@@ -6,4 +6,11 @@ export const elements = {
   errorMessage: document.getElementById('error-message') as HTMLParagraphElement,
   clearCompletedButton: document.getElementById('clear-completed') as HTMLButtonElement,
   filterButtons: document.querySelectorAll<HTMLButtonElement>('.filter-button'),
+  calendarButton: document.getElementById('calendar-button') as HTMLButtonElement,
+  datePicker: {
+    label: document.getElementById('date-label') as HTMLSpanElement,
+    clearButton: document.getElementById('clear-date') as HTMLButtonElement,
+    weekStrip: document.getElementById('week-strip') as HTMLDivElement,
+    dateInput: document.getElementById('due-date-input') as HTMLInputElement,
+  },
 };

@@ -8,7 +8,7 @@ const addTodo = async (text: string): Promise<void> => {
   await t.typeText(input, text).pressKey('enter');
 };
 
-const textDecoration = (): Promise<string> => todoItem.find('span').getStyleProperty('text-decoration-line');
+const textDecoration = (): Promise<string> => todoItem.find('.todo-text').getStyleProperty('text-decoration-line');
 
 fixture('Toggle completed').page('http://127.0.0.1:5173');
 
