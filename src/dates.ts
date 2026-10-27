@@ -26,6 +26,10 @@ export const getDaysFrom = (start: string, count: number): string[] => {
 export const formatDate = (key: string): string =>
   fromDateKey(key).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
+/** Formats a date key without the weekday, e.g. `31 Oct`. */
+export const formatShortDate = (key: string): string =>
+  fromDateKey(key).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
 /** A todo is overdue when its due date is before `today` and it isn't completed yet. */
 export const isOverdue = (todo: Todo, today: string): boolean =>
   !todo.completed && todo.dueDate !== undefined && todo.dueDate < today;

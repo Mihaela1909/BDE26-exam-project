@@ -4,6 +4,7 @@ const input = Selector('#todo-input');
 const todoItems = Selector('.todo-item');
 const progressBar = Selector('#progress-bar');
 const progressText = Selector('#progress-text');
+const progressHeading = Selector('#progress-heading');
 
 const addTodo = async (text: string): Promise<void> => {
   await t.typeText(input, text).pressKey('enter');
@@ -23,22 +24,23 @@ test('completing a todo increases the progress', async (t) => {
 
   await t
     .expect(progressBar.getAttribute('aria-valuenow')).eql('50')
-    .expect(progressText.innerText).eql('1 of 2 done · 50%');
+    .expect(progressText.innerText).eql('1 of 2 · 50%');
 
   await completeTodo('Walk dog');
 
   await t
     .expect(progressBar.getAttribute('aria-valuenow')).eql('100')
-    .expect(progressText.innerText).eql('All done! · 100%');
+    .expect(progressText.innerText).eql('2 of 2 · 100%')
+    .expect(progressHeading.innerText).eql('all done!');
 });
 
 test('progress shows 0% with no completed todos', async (t) => {
-  await t.expect(progressText.innerText).eql('0 of 0 done · 0%');
+  await t.expect(progressText.innerText).eql('0 of 0 · 0%');
 
   await addTodo('Buy milk');
   await addTodo('Walk dog');
 
   await t
     .expect(progressBar.getAttribute('aria-valuenow')).eql('0')
-    .expect(progressText.innerText).eql('0 of 2 done · 0%');
+    .expect(progressText.innerText).eql('0 of 2 · 0%');
 });

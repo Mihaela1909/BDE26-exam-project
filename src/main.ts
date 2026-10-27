@@ -1,12 +1,29 @@
 import './style.css'
-import { applyBackground, isHexColor } from './background';
+import { animateOut, prefersReducedMotion, restartAnimation } from './animations';
+import { applyBackground, getSwatchColor, isHexColor } from './background';
 import { renderDatePicker } from './datePicker';
 import { toDateKey } from './dates';
+import {
+  createFlower,
+  createMainFlowerSpecs,
+  createRandomBigFlowerSpec,
+  createRandomFlowerSpec,
+  keepReblooming,
+} from './decor';
 import { elements } from './dom';
+import { getEmptyMessage, renderEmptyState } from './emptyState';
 import { filterTodos, isFilter } from './filter';
-import { renderProgress } from './progress';
+import { moveFilterIndicator } from './filterIndicator';
+import { describeTasksLeft, renderProgress } from './progress';
 import { load, remove, save } from './storage';
-import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
+import {
+  renderTodos,
+  setActiveFilter,
+  setErrorMessage,
+  setFilterCounts,
+  setInputError,
+  type TodoItemHandlers,
+} from './render';
 import { applyTheme, isTheme, Theme, toggleTheme } from './theme';
 import { TodoStore } from './TodoStore';
 import type { Filter } from './types';
@@ -30,7 +47,10 @@ const handlers: TodoItemHandlers = {
     store.toggleCompleted(id);
     saveAndRender();
   },
-  onRemove: (id) => {
+  onRemove: async (id) => {
+    const item = findTodoItem(id);
+    if (item) await animateOut(item, 'leaving');
+
     store.remove(id);
     if (editingId === id) editingId = null;
     saveAndRender();
@@ -50,6 +70,16 @@ const handlers: TodoItemHandlers = {
   },
 };
 
+const findTodoItem = (id: number): HTMLElement | null =>
+  elements.todoList.querySelector<HTMLElement>(`[data-id="${id}"]`);
+
+const activeFilterButton = (): HTMLButtonElement | null =>
+  [...elements.filterButtons].find((button) => button.dataset.filter === currentFilter) ?? null;
+
+const showFilterIndicator = (target: HTMLButtonElement | null): void => {
+  moveFilterIndicator(elements.filterIndicator, elements.filterButtons, target);
+};
+
 const selectDueDate = (day: string | null): void => {
   selectedDueDate = day;
   render();
@@ -57,12 +87,23 @@ const selectDueDate = (day: string | null): void => {
 
 const render = (): void => {
   const todos = store.getAll();
+  const visibleTodos = filterTodos(todos, currentFilter);
   const today = toDateKey(new Date());
+  const progress = store.getProgress();
 
   renderDatePicker(elements.datePicker, today, selectedDueDate, selectDueDate);
-  renderTodos(elements.todoList, filterTodos(todos, currentFilter), handlers, editingId, today);
+  renderTodos(elements.todoList, visibleTodos, handlers, editingId, today);
+  renderEmptyState(elements.emptyState, getEmptyMessage(todos.length, visibleTodos.length, currentFilter));
   setActiveFilter(elements.filterButtons, currentFilter);
-  renderProgress(elements.progress, store.getProgress());
+  // Keep the indicator on the hovered button while the mouse is over the filters
+  if (!elements.filters.matches(':hover')) showFilterIndicator(activeFilterButton());
+  setFilterCounts(elements.filterButtons, {
+    all: todos.length,
+    active: filterTodos(todos, 'active').length,
+    completed: filterTodos(todos, 'completed').length,
+  });
+  renderProgress(elements.progress, progress);
+  elements.tasksLeft.textContent = describeTasksLeft(progress);
   elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
   elements.clearAllButton.disabled = todos.length === 0;
 };
@@ -77,6 +118,31 @@ applyTheme(document.documentElement, elements.themeToggle, theme);
 applyBackground(elements.background, backgroundColor, theme);
 render();
 
+// Text widths change once the web font has loaded, so place the indicator again, then let it slide from now on
+document.fonts.ready.then(() => {
+  showFilterIndicator(activeFilterButton());
+  requestAnimationFrame(() => elements.filterIndicator.classList.add('ready'));
+});
+window.addEventListener('resize', () => showFilterIndicator(activeFilterButton()));
+
+elements.filterButtons.forEach((button) => {
+  button.addEventListener('mouseenter', () => showFilterIndicator(button));
+  button.addEventListener('focus', () => showFilterIndicator(button));
+});
+elements.filters.addEventListener('mouseleave', () => showFilterIndicator(activeFilterButton()));
+elements.filters.addEventListener('focusout', () => showFilterIndicator(activeFilterButton()));
+
+// Background flowers: they start in the design's layout plus a few small ones at random spots,
+// then each one wilts and blooms again somewhere new on its own random timer
+const bigFlowers = createMainFlowerSpecs().map(createFlower);
+const smallFlowers = Array.from({ length: 3 }, () => createFlower(createRandomFlowerSpec()));
+elements.decor.append(...bigFlowers, ...smallFlowers);
+
+if (!prefersReducedMotion()) {
+  bigFlowers.forEach((flower) => keepReblooming(flower, createRandomBigFlowerSpec));
+  smallFlowers.forEach((flower) => keepReblooming(flower, createRandomFlowerSpec));
+}
+
 elements.themeToggle.addEventListener('click', () => {
   theme = toggleTheme(theme);
   save(THEME_KEY, theme);
@@ -85,17 +151,21 @@ elements.themeToggle.addEventListener('click', () => {
   applyBackground(elements.background, backgroundColor, theme);
 });
 
-elements.background.picker.addEventListener('input', () => {
-  backgroundColor = elements.background.picker.value;
-  save(BACKGROUND_KEY, backgroundColor);
+const selectBackground = (color: string | null): void => {
+  backgroundColor = color;
+  if (color) {
+    save(BACKGROUND_KEY, color);
+  } else {
+    remove(BACKGROUND_KEY);
+  }
   applyBackground(elements.background, backgroundColor, theme);
+};
+
+elements.background.swatches.forEach((swatch) => {
+  swatch.addEventListener('click', () => selectBackground(getSwatchColor(swatch)));
 });
 
-elements.background.resetButton.addEventListener('click', () => {
-  backgroundColor = null;
-  remove(BACKGROUND_KEY);
-  applyBackground(elements.background, backgroundColor, theme);
-});
+elements.background.picker.addEventListener('input', () => selectBackground(elements.background.picker.value));
 
 elements.calendarButton.addEventListener('click', () => {
   const { dateInput } = elements.datePicker;
@@ -146,12 +216,14 @@ elements.todoForm.addEventListener('submit', (event: Event) => {
   if (error) {
     setErrorMessage(elements.errorMessage, error);
     setInputError(elements.todoInput, true);
+    restartAnimation(elements.todoInput, 'shake');
     return;
   }
 
-  store.add(text, selectedDueDate ?? undefined);
+  const todo = store.add(text, selectedDueDate ?? undefined);
   selectedDueDate = null;
   saveAndRender();
+  findTodoItem(todo.id)?.classList.add('entering');
   elements.todoInput.value = '';
   setErrorMessage(elements.errorMessage, '');
   setInputError(elements.todoInput, false);

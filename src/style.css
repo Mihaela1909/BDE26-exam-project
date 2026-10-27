@@ -1,125 +1,352 @@
 :root {
-  --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --line-height: 1.5;
-  --font-weight: 400;
+  --font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --line-height: 1.4;
 
   --font-synthesis: none;
   --text-rendering: optimizeLegibility;
   --webkit-font-smoothing: antialiased;
   --moz-osx-font-smoothing: grayscale;
 
-  --container-padding: 20px;
-  --container-border-radius: 5px;
-  --container-width: 400px;
+  --container-width: 760px;
+  --container-border-radius: 28px;
+  --panel-radius: 16px;
 
   /* Light theme colors */
   color-scheme: light;
-  --body-background-color: #f4f4f4;
-  --container-background-color: #fff;
-  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  --surface-color: #f9f9f9;
-  --text-color: #213547;
-  --muted-text-color: #666;
-  --border-color: #ddd;
-  --input-border-color: #ccc;
-  --on-color: #fff;
-  --accent-color: #007bff;
-  --accent-soft-color: #e7f1ff;
-  --accent-text-color: #0056b3;
-  --success-color: #28a745;
-  --success-soft-color: #e8f5e9;
-  --danger-color: #dc3545;
-  --danger-soft-color: #fdecea;
-  --neutral-color: #6c757d;
-  --neutral-soft-color: #eee;
-  --track-color: #e9ecef;
+  --body-background-color: #b5e6fb;
+  --page-gradient: linear-gradient(180deg, #b5e6fb 0%, #dcf3fc 60%, #ffffff 100%);
+  --flower-1: #c7e3b8;
+  --flower-2: #f2eba6;
+  --flower-3: #e2dff0;
+
+  --header-background: #ffffff;
+  --card-background: #fbfcf4;
+  --card-shadow: 0 10px 0 rgba(46, 74, 107, 0.12), 0 20px 50px rgba(46, 74, 107, 0.15);
+  --panel-background: #f3f6fb;
+  --panel-border: #e1e7f0;
+  --tile-background: #e7eef8;
+  --tile-text: #8bb4df;
+  --brand-text: #2e4a6b;
+  --tagline-color: #7fb8ec;
+  --label-color: #0b7fd1;
+  --text-color: #3a4a5f;
+  --muted-text-color: #7d8ea5;
+  --placeholder-color: #6f7f94;
+  --on-color: #ffffff;
+
+  --accent-color: #0b7fd1;
+  --accent-strong-color: #0866aa;
+  --soft-button-background: #dcebfb;
+  --soft-button-border: #8fc2f3;
+  --soft-button-text: #5aa3ee;
+
+  --success-color: #8ace41;
+  --success-strong-color: #6fa92f;
+  --completed-background: #edf6e2;
+  --completed-border: #d4e7bd;
+
+  --danger-color: #e5484d;
+  --danger-ring: rgba(229, 72, 77, 0.18);
+  --overdue-background: #ffd8cf;
+  --overdue-border: #efb1a4;
+  --overdue-chip-background: #ff8f7c;
+  --overdue-chip-text: #a80000;
+  --neutral-chip-background: #e4e9f0;
+
+  --track-color: #e5eaf1;
+  --switch-track: #e2e6ec;
+  --switch-knob: #ffffff;
+  --divider-color: #dfe5ee;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --body-background-color: #121212;
-  --container-background-color: #1e1e1e;
-  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  --surface-color: #2a2a2a;
-  --text-color: #e8e8e8;
-  --muted-text-color: #a0a0a0;
-  --border-color: #3a3a3a;
-  --input-border-color: #555;
-  --on-color: #fff;
-  --accent-color: #3d8bfd;
-  --accent-soft-color: #1c2f4a;
-  --accent-text-color: #8bb9fe;
-  --success-color: #2fb350;
-  --success-soft-color: #1d3324;
-  --danger-color: #e5535f;
-  --danger-soft-color: #3d1f22;
-  --neutral-color: #6c757d;
-  --neutral-soft-color: #333;
-  --track-color: #333;
+  --body-background-color: #011627;
+  --page-gradient: linear-gradient(180deg, #011627 0%, #0a2a3c 42%, #6f9e6a 78%, #e7e3c7 100%);
+  --flower-1: #2f5426;
+  --flower-2: #8f9124;
+  --flower-3: #6b6f78;
+
+  --header-background: #1b2739;
+  --card-background: #253651;
+  --card-shadow: 0 10px 0 rgba(0, 0, 0, 0.25), 0 20px 50px rgba(0, 0, 0, 0.4);
+  --panel-background: #4a6588;
+  --panel-border: #6d89ad;
+  --tile-background: #1d2a3d;
+  --tile-text: #ffffff;
+  --brand-text: #ffffff;
+  --tagline-color: #6aaef5;
+  --label-color: #8cc0f5;
+  --text-color: #e8eef6;
+  --muted-text-color: #a9bbd1;
+  --placeholder-color: #c3d1e2;
+
+  --accent-color: #0b7fd1;
+  --accent-strong-color: #3d9be6;
+  --soft-button-background: #9dcaf6;
+  --soft-button-border: #d6e8fb;
+  --soft-button-text: #2c86e0;
+
+  --completed-background: #5e6c53;
+  --completed-border: #8e9c7c;
+
+  --danger-color: #ff6b6b;
+  --danger-ring: rgba(255, 107, 107, 0.25);
+  --overdue-background: #7a4a3e;
+  --overdue-border: #b7796a;
+  --neutral-chip-background: #6d82a0;
+
+  --track-color: #5d7392;
+  --switch-track: #0b5fa5;
+  --switch-knob: #1b2739;
+  --divider-color: #6d89ad;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: var(--font-family);
+  line-height: var(--line-height);
   background-color: var(--body-background-color);
+  background-image: var(--page-gradient);
+  background-attachment: fixed;
   color: var(--text-color);
   margin: 0;
-  padding: 0;
+  padding: 48px 16px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  align-items: flex-start;
   transition: background-color 0.2s ease;
 }
-
-.container {
-  background: var(--container-background-color);
-  padding: var(--container-padding);
-  border-radius: var(--container-border-radius);
-  box-shadow: var(--container-box-shadow);
-  width: var(--container-width);
+/* A picked background color replaces the theme's gradient */
+:root.custom-background body {
+  background-image: none;
 }
 
+button,
+input {
+  font: inherit;
+}
 
-.header {
-  position: relative;
+/* Theme changes fade instead of jumping */
+.app,
+.app-header,
+.panel,
+.todo-item,
+.filters,
+.theme-switch,
+.todo-form input,
+.toggle-checkbox,
+.due-date {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
-h1 {
-  text-align: center;
+
+/* Buttons lift a little on hover and press in when clicked */
+.pill-button,
+.todo-item button,
+.add-button,
+.swatch,
+.day-button,
+.icon-button,
+.switch {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
-#theme-toggle {
+.pill-button:hover:not(:disabled),
+.todo-item button:hover,
+.add-button:hover,
+.day-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(11, 127, 209, 0.2);
+}
+.pill-button:active:not(:disabled),
+.todo-item button:active,
+.add-button:active,
+.day-button:active {
+  transform: translateY(0) scale(0.96);
+}
+.swatch:hover,
+.icon-button:hover {
+  transform: scale(1.12);
+}
+.swatch:active {
+  transform: scale(0.95);
+}
+
+/* Big soft flowers behind the card */
+.decor {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.flower {
   position: absolute;
-  top: 0;
-  right: 0;
-  border: 1px solid var(--border-color);
-  background: var(--surface-color);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.1em;
-  cursor: pointer;
+  left: var(--left);
+  top: var(--top);
+  width: var(--size);
+  aspect-ratio: 353 / 262;
+  background: var(--color);
+  -webkit-mask: url('/flower.svg') center / contain no-repeat;
+  mask: url('/flower.svg') center / contain no-repeat;
+  transform: rotate(var(--rotate)) scaleX(var(--flip));
+  transition: background-color 0.35s ease;
+  /* Grows from nothing, then sways gently forever */
+  animation:
+    bloom 1.6s cubic-bezier(0.2, 0.9, 0.3, 1.15) var(--delay) both,
+    sway 9s ease-in-out calc(var(--delay) + 1.6s) infinite alternate;
 }
+.flower.reblooming {
+  animation:
+    bloom 1.6s cubic-bezier(0.2, 0.9, 0.3, 1.15) var(--delay) both,
+    sway 9s ease-in-out calc(var(--delay) + 1.6s) infinite alternate;
+}
+/* Must come after .reblooming, so a flower that bloomed again can still wilt */
+.flower.wilting {
+  animation: wilt 0.9s ease-in forwards;
+}
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--rotate) - 150deg)) scale(0) scaleX(var(--flip));
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--rotate)) scale(1) scaleX(var(--flip));
+  }
+}
+@keyframes sway {
+  from {
+    transform: rotate(var(--rotate)) scale(1) scaleX(var(--flip));
+  }
+  to {
+    transform: rotate(calc(var(--rotate) + 7deg)) scale(1.04) scaleX(var(--flip));
+  }
+}
+@keyframes wilt {
+  to {
+    opacity: 0;
+    transform: rotate(calc(var(--rotate) + 90deg)) scale(0) scaleX(var(--flip));
+  }
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  /* Lets the card shrink on narrow screens instead of growing to fit its content */
+  min-width: 0;
+  max-width: var(--container-width);
+  border-radius: var(--container-border-radius);
+  background: var(--card-background);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+/* Header with the logo */
+.app-header {
+  background: var(--header-background);
+  padding: 8px 24px 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+.brand {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+}
+.brand-text {
+  color: var(--brand-text);
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: left;
+}
+.brand-logo {
+  height: 96px;
+  width: auto;
+  transition: transform 0.4s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.brand:hover .brand-logo {
+  transform: rotate(-5deg) scale(1.05);
+}
+.brand-tagline {
+  color: var(--tagline-color);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  text-align: left;
+  margin-left: -6px;
+}
+
+.app-body {
+  padding: 16px 20px 24px;
+}
+
+.panel {
+  background: var(--panel-background);
+  border: 2px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+}
+
+/* Top row: date picker on the left, settings and input on the right */
+.top-row {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 10px;
+}
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
 .date-picker {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px 10px;
 }
 .date-picker-header {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 8px;
-  font-weight: 600;
+  gap: 6px;
+  margin-bottom: 4px;
+  color: var(--label-color);
+  font-size: 1.15rem;
+  font-weight: 500;
 }
 #clear-date {
   border: none;
   background: none;
   color: var(--danger-color);
+  font-size: 0.9rem;
   cursor: pointer;
 }
-#calendar-button {
+.icon-button {
   margin-left: auto;
+  display: grid;
+  place-items: center;
+  padding: 2px;
   border: none;
   background: none;
-  font-size: 1.2em;
+  color: var(--label-color);
   cursor: pointer;
 }
 /* Only used to open the browser's calendar from the calendar button */
@@ -132,245 +359,673 @@ h1 {
   opacity: 0;
   pointer-events: none;
 }
-.week-strip {
-  display: flex;
+.date-row {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.5fr repeat(7, 1fr);
   gap: 4px;
 }
+/* The day buttons sit directly in the grid next to the month tile */
+.week-strip {
+  display: contents;
+}
+.month-tile,
 .day-button {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 5px 0;
-  border: 1px solid var(--border-color);
-  background: var(--container-background-color);
-  color: var(--text-color);
-  border-radius: 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+}
+.month-tile {
+  text-align: center;
+}
+.month-year,
+.day-name {
+  padding: 2px 0;
+  font-size: 0.7rem;
+}
+.month-name,
+.day-number {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 6px 0 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.month-year {
+  background: #cfe6fb;
+  color: var(--accent-color);
+}
+.month-name {
+  background: var(--accent-color);
+  color: var(--on-color);
+}
+.day-button {
+  min-width: 0;
+  align-items: stretch;
+  padding: 0;
+  border: none;
+  background: var(--tile-background);
+  color: var(--tile-text);
   cursor: pointer;
 }
 .day-name {
-  font-size: 0.75em;
-  color: var(--muted-text-color);
+  background: color-mix(in srgb, var(--tile-background), #ffffff 12%);
 }
-.day-number {
-  font-weight: 600;
+.day-button.today .day-name {
+  background: var(--success-strong-color);
+  color: var(--on-color);
 }
-.day-button.today {
-  border-color: var(--success-color);
-  background: var(--success-soft-color);
+.day-button.today .day-number {
+  background: var(--success-color);
+  color: var(--on-color);
 }
-.day-button.selected {
-  border-color: var(--accent-color);
+.day-button.selected .day-name,
+.day-button.selected .day-number {
   background: var(--accent-color);
   color: var(--on-color);
 }
 .day-button.selected .day-name {
-  color: var(--on-color);
+  background: var(--accent-strong-color);
 }
-.todo-form {
+
+.settings-row {
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
+  gap: 8px;
 }
-.todo-form input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid var(--input-border-color);
-  border-radius: 3px;
-  background: var(--container-background-color);
-  color: var(--text-color);
-}
-.todo-form button {
-  padding: 10px;
-  border: none;
-  background: var(--success-color);
-  color: var(--on-color);
-  border-radius: 3px;
-  cursor: pointer;
-}
-.todo-list {
-  list-style: none;
-  padding: 0;
-}
-.todo-item {
-  background: var(--surface-color);
-  padding: 10px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.todo-content {
-  flex: 1;
+.background-picker {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 0;
+  color: var(--label-color);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
-.todo-text {
-  overflow-wrap: anywhere;
-}
-.due-date {
-  align-self: flex-start;
-  padding: 1px 6px;
-  font-size: 0.75em;
-  background: var(--accent-soft-color);
-  color: var(--accent-text-color);
-  border-radius: 10px;
-}
-.due-date.no-date {
-  background: var(--neutral-soft-color);
-  color: var(--muted-text-color);
-}
-.todo-item.overdue {
-  background: var(--danger-soft-color);
-  border-left: 4px solid var(--danger-color);
-}
-.todo-item.overdue .due-date {
-  background: var(--danger-color);
-  color: var(--on-color);
-}
-.toggle-checkbox {
-  margin: 0 10px 0 0;
-  cursor: pointer;
-}
-.todo-item.completed .todo-text {
-  text-decoration: line-through;
-  color: var(--muted-text-color);
-}
-.todo-actions {
+.swatches {
   display: flex;
   gap: 5px;
-  margin-left: 10px;
 }
-.todo-item button {
-  border: none;
-  background: var(--danger-color);
-  color: var(--on-color);
-  border-radius: 3px;
+.swatch {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 3px solid var(--panel-border);
+  border-radius: 50%;
+  background: var(--swatch);
   cursor: pointer;
 }
-.todo-item .edit-button {
-  background: var(--accent-color);
+/* Shows a small preview of the theme's own background, so it reads as "back to the original" */
+.swatch-default {
+  background: var(--page-gradient);
 }
-.todo-item .save-button {
-  background: var(--success-color);
+.swatch[aria-pressed='true'],
+.swatch-custom.selected {
+  border-color: var(--brand-text);
 }
-.todo-item .cancel-button {
-  background: var(--neutral-color);
+.swatch-custom {
+  background: var(--neutral-chip-background);
+  color: var(--text-color);
+  overflow: hidden;
 }
-.edit-date,
-.edit-input {
-  border: 1px solid var(--input-border-color);
-  border-radius: 3px;
-  background: var(--container-background-color);
+.swatch-custom input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.theme-switch svg {
+  width: 20px;
+  height: 20px;
+}
+.theme-switch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--panel-background);
   color: var(--text-color);
 }
-.edit-date {
-  margin-left: 5px;
-  padding: 4px;
+.switch {
+  position: relative;
+  width: 58px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--switch-track);
+  cursor: pointer;
 }
-.edit-input {
+.switch-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--switch-knob);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+.switch[aria-pressed='true'] .switch-knob {
+  transform: translateX(28px);
+}
+
+.todo-form {
+  display: flex;
+  gap: 10px;
+}
+.todo-form input {
   flex: 1;
   min-width: 0;
-  padding: 5px;
+  padding: 10px 16px;
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--panel-background);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+.todo-form input::placeholder {
+  color: var(--placeholder-color);
+}
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: 2px solid var(--accent-strong-color);
+  border-radius: 999px;
+  background: var(--accent-color);
+  color: var(--on-color);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.add-button:hover {
+  background: var(--accent-strong-color);
 }
 
+/* The error floats just below the input; its space is reserved under the top row (see .progress),
+   so it doesn't make the date card taller and nothing jumps when it appears */
+.error-slot {
+  position: relative;
+  height: 0;
+  margin-top: -10px;
+}
+#error-message {
+  position: absolute;
+  top: 4px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+#error-message::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v6M12 16.5v.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v6M12 16.5v.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+#error-message[hidden] {
+  display: none;
+}
+#error-message:not([hidden]) {
+  animation: fade-down 0.25s ease-out;
+}
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.todo-form input.shake {
+  animation: shake 0.35s ease-in-out;
+}
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+.input-error,
+.todo-form input.input-error {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 4px var(--danger-ring);
+}
 
+/* Progress */
 .progress {
-  margin-top: 15px;
+  margin-top: 24px;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#progress-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--label-color);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+#progress-heading.all-done {
+  color: var(--success-strong-color);
+}
+#progress-heading.all-done::before {
+  content: '';
+  width: 32px;
+  height: 24px;
+  background: var(--success-color);
+  -webkit-mask: url('/flower.svg') center / contain no-repeat;
+  mask: url('/flower.svg') center / contain no-repeat;
+  animation: pop-in 0.4s ease-out;
+}
+@keyframes pop-in {
+  0% {
+    transform: scale(0) rotate(-45deg);
+  }
+  70% {
+    transform: scale(1.25) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+.progress-text {
+  margin: 0 0 4px;
+  color: var(--muted-text-color);
+  font-size: 0.8rem;
 }
 .progress-bar {
   height: 10px;
+  margin-top: 4px;
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
   background: var(--track-color);
-  border-radius: 5px;
   overflow: hidden;
 }
 .progress-fill {
   width: 0;
   height: 100%;
+  border-radius: 999px;
   background: var(--success-color);
   transition: width 0.3s ease;
 }
-.progress-text {
-  margin: 5px 0 0;
-  font-size: 0.85em;
-  color: var(--muted-text-color);
-}
 
+/* Filters */
 .filters {
+  position: relative;
   display: flex;
-  gap: 5px;
-  margin-top: 15px;
+  margin-top: 14px;
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--panel-background);
+}
+/* The blue pill slides to the hovered or selected filter */
+.filter-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--indicator-width);
+  border-radius: 999px;
+  background: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-strong-color);
+  transform: translateX(var(--indicator-x));
+}
+.filter-indicator.ready {
+  transition:
+    transform 0.4s cubic-bezier(0.35, 1.35, 0.5, 1),
+    width 0.4s cubic-bezier(0.35, 1.35, 0.5, 1);
 }
 .filter-button {
+  position: relative;
   flex: 1;
   padding: 6px;
-  border: 1px solid var(--accent-color);
-  background: var(--container-background-color);
-  color: var(--accent-color);
-  border-radius: 3px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
+  transition: color 0.25s ease;
 }
-.filter-button.active {
-  background: var(--accent-color);
+.filter-button.highlighted {
   color: var(--on-color);
 }
 
-.footer-actions {
+/* Todo list */
+.todo-list {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.footer-actions button {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  background: var(--neutral-color);
-  color: var(--on-color);
-  border-radius: 3px;
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 2px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  background: var(--panel-background);
+}
+.todo-item:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(46, 74, 107, 0.12);
+}
+.todo-item.entering {
+  animation: slide-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.todo-item.leaving {
+  animation: slide-out 0.3s ease-in forwards;
+  pointer-events: none;
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+}
+@keyframes slide-out {
+  to {
+    opacity: 0;
+    transform: translateX(40px) scale(0.95);
+  }
+}
+.todo-item.overdue {
+  border-color: var(--overdue-border);
+  background: var(--overdue-background);
+}
+.todo-item.completed {
+  border-color: var(--completed-border);
+  background: var(--completed-background);
+}
+.toggle-checkbox {
+  flex-shrink: 0;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border: 3px solid var(--panel-border);
+  border-radius: 50%;
+  background: var(--card-background);
   cursor: pointer;
 }
-.footer-actions #clear-all {
-  background: var(--danger-color);
+:root[data-theme='dark'] .toggle-checkbox {
+  background: #7d97ba;
 }
-.footer-actions button:disabled {
+.toggle-checkbox:hover {
+  border-color: var(--success-color);
+}
+.toggle-checkbox:checked {
+  animation: check-pop 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+@keyframes check-pop {
+  50% {
+    transform: scale(1.25);
+  }
+}
+.toggle-checkbox:checked,
+:root[data-theme='dark'] .toggle-checkbox:checked {
+  border-color: var(--success-strong-color);
+  background: var(--success-color) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 18px no-repeat;
+}
+.todo-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.todo-text {
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--muted-text-color);
+}
+.due-date {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: var(--soft-button-background);
+  color: var(--soft-button-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+:root[data-theme='dark'] .due-date {
+  background: #dcebfb;
+}
+.due-date.no-date,
+:root[data-theme='dark'] .due-date.no-date {
+  background: var(--neutral-chip-background);
+  color: var(--muted-text-color);
+}
+.todo-item.overdue .due-date {
+  background: var(--overdue-chip-background);
+  color: var(--overdue-chip-text);
+}
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Soft outlined pill buttons: Edit, Remove, Cancel, Clear completed, Clear all */
+.pill-button,
+.todo-item button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 14px;
+  border: 2px solid var(--soft-button-border);
+  border-radius: 999px;
+  background: var(--soft-button-background);
+  color: var(--soft-button-text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pill-button:hover:not(:disabled),
+.todo-item button:hover {
+  border-color: var(--accent-color);
+}
+.pill-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-.input-error {
-  border: 2px solid var(--danger-color);
-  background-color: var(--danger-soft-color);
+#clear-all:disabled {
+  border-color: #f3a6a6;
+  background: none;
+  color: #f08a8a;
 }
 
-.background-picker {
+/* Editing a todo */
+.todo-item.editing {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(11, 127, 209, 0.15);
+}
+.edit-input,
+.edit-date {
+  border: 2px solid var(--panel-border);
+  border-radius: 999px;
+  background: var(--card-background);
+  color: var(--text-color);
+}
+.edit-input {
+  width: 100%;
+  padding: 8px 16px;
+  border-color: var(--accent-color);
+  border-radius: 12px;
+  font-size: 1.05rem;
+}
+.edit-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 15px;
-  font-size: 0.85em;
-  color: var(--muted-text-color);
+  gap: 10px;
 }
-#colorPicker {
-  width: 36px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid var(--input-border-color);
-  border-radius: 3px;
-  background: none;
-  cursor: pointer;
+.edit-date {
+  padding: 6px 14px;
 }
-#reset-background {
-  padding: 4px 8px;
-  border: 1px solid var(--input-border-color);
-  background: var(--surface-color);
+.todo-item .save-button {
+  border-color: var(--accent-strong-color);
+  background: var(--accent-color);
+  color: var(--on-color);
+  padding: 6px 22px;
+}
+.todo-item .cancel-button {
+  border-color: var(--panel-border);
+  background: var(--card-background);
   color: var(--text-color);
-  border-radius: 3px;
-  cursor: pointer;
+  padding: 6px 22px;
 }
 
-#error-message {
-  color: var(--danger-color);
-  font-size: 0.9em;
-  margin-top: 5px;
+/* Empty list */
+.empty-state {
+  margin-top: 12px;
+  padding: 28px 16px;
+  text-align: center;
+}
+.empty-state[hidden] {
   display: none;
+}
+.empty-state img {
+  animation: float 3s ease-in-out infinite alternate;
+}
+@keyframes float {
+  to {
+    transform: translateY(-6px) rotate(8deg);
+  }
+}
+.empty-title {
+  margin: 8px 0 2px;
+  color: var(--brand-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.empty-text {
+  margin: 0;
+  color: var(--muted-text-color);
+  font-size: 0.9rem;
+}
+
+/* Footer */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 2px solid var(--divider-color);
+}
+#tasks-left {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.footer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* People who asked their system for less motion get the final state straight away */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Phones and narrow windows: stack the top row */
+@media (max-width: 720px) {
+  body {
+    padding: 16px 12px;
+  }
+  .top-row {
+    grid-template-columns: 1fr;
+  }
+  .brand-text {
+    font-size: 1.9rem;
+  }
+  .brand-logo {
+    height: 70px;
+  }
+  .brand-tagline {
+    display: none;
+  }
+  .app-body {
+    padding: 12px 12px 20px;
+  }
+  .settings-row {
+    flex-wrap: wrap;
+  }
+  .filter-button {
+    padding: 6px 4px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .todo-form input {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  .add-button {
+    padding: 8px 12px;
+    font-size: 1.05rem;
+  }
+  .todo-item {
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+  /* Text takes the full row next to the checkbox; the buttons move below it */
+  .todo-content {
+    flex-basis: calc(100% - 44px);
+  }
+  .todo-actions {
+    margin-left: 44px;
+  }
+  .app-footer {
+    flex-wrap: wrap;
+  }
 }

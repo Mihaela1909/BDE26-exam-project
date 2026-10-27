@@ -29,7 +29,8 @@ test('adding a todo with a due date displays that date', async (t) => {
   await addTodo('Buy milk');
 
   await t
-    .expect(todoItem.find('.due-date').innerText).eql(tomorrowLabel ?? '')
+    // The chip leaves out the weekday: "Wed 28 Oct" becomes "Due 28 Oct"
+    .expect(todoItem.find('.due-date').innerText).eql(`Due ${tomorrowLabel?.split(' ').slice(1).join(' ')}`)
     .expect(todoItem.hasClass('overdue')).notOk()
     .expect(dateLabel.innerText).eql('Today is:');
 });

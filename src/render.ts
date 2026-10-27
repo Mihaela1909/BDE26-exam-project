@@ -1,4 +1,6 @@
-import { formatDate, isOverdue, toDateKey } from './dates';
+import { formatShortDate, isOverdue, toDateKey } from './dates';
+import { createIcon, type icons } from './icons';
+import { isFilter } from './filter';
 import type { Filter, Todo } from './types';
 import { validateTodoText } from './validation';
 
@@ -11,11 +13,17 @@ export interface TodoItemHandlers {
   onCancel: () => void;
 }
 
-const createButton = (className: string, label: string, onClick: () => void): HTMLButtonElement => {
+const createButton = (
+  className: string,
+  label: string,
+  onClick: () => void,
+  icon?: keyof typeof icons,
+): HTMLButtonElement => {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = className;
   button.textContent = label;
+  if (icon) button.append(createIcon(icon));
   button.addEventListener('click', onClick);
   return button;
 };
@@ -54,17 +62,25 @@ const createEditingContent = (todo: Todo, handlers: TodoItemHandlers): HTMLEleme
     });
   }
 
-  return [
-    input,
+  const editRow = document.createElement('div');
+  editRow.className = 'edit-row';
+  editRow.append(
     dateInput,
     createActions(
-      createButton('save-button', 'save', save),
-      createButton('cancel-button', 'cancel', handlers.onCancel),
+      createButton('save-button', 'Save', save),
+      createButton('cancel-button', 'Cancel', handlers.onCancel),
     ),
-  ];
+  );
+
+  return [input, editRow];
 };
 
-const createViewContent = (todo: Todo, handlers: TodoItemHandlers): HTMLElement[] => {
+const describeDueDate = (todo: Todo, today: string): string => {
+  if (!todo.dueDate) return 'No date';
+  return `${isOverdue(todo, today) ? 'Overdue' : 'Due'} ${formatShortDate(todo.dueDate)}`;
+};
+
+const createViewContent = (todo: Todo, handlers: TodoItemHandlers, today: string): HTMLElement[] => {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'toggle-checkbox';
@@ -78,7 +94,8 @@ const createViewContent = (todo: Todo, handlers: TodoItemHandlers): HTMLElement[
   const dueDate = document.createElement('span');
   dueDate.className = 'due-date';
   dueDate.classList.toggle('no-date', !todo.dueDate);
-  dueDate.textContent = todo.dueDate ? formatDate(todo.dueDate) : 'No date';
+  dueDate.textContent = describeDueDate(todo, today);
+  if (todo.dueDate) dueDate.prepend(createIcon('calendar'));
 
   const content = document.createElement('div');
   content.className = 'todo-content';
@@ -88,8 +105,8 @@ const createViewContent = (todo: Todo, handlers: TodoItemHandlers): HTMLElement[
     checkbox,
     content,
     createActions(
-      createButton('edit-button', 'edit', () => handlers.onEdit(todo.id)),
-      createButton('remove-button', 'remove', () => handlers.onRemove(todo.id)),
+      createButton('edit-button', 'Edit', () => handlers.onEdit(todo.id), 'pencil'),
+      createButton('remove-button', 'Remove', () => handlers.onRemove(todo.id), 'trash'),
     ),
   ];
 };
@@ -107,9 +124,11 @@ export const createTodoItem = (
 ): HTMLLIElement => {
   const li = document.createElement('li');
   li.className = 'todo-item';
+  li.dataset.id = String(todo.id);
   li.classList.toggle('completed', todo.completed);
   li.classList.toggle('overdue', isOverdue(todo, today));
-  li.append(...(isEditing ? createEditingContent(todo, handlers) : createViewContent(todo, handlers)));
+  li.classList.toggle('editing', isEditing);
+  li.append(...(isEditing ? createEditingContent(todo, handlers) : createViewContent(todo, handlers, today)));
   return li;
 };
 
@@ -138,10 +157,18 @@ export const setActiveFilter = (buttons: Iterable<HTMLButtonElement>, filter: Fi
   }
 };
 
+/** Shows how many todos each filter matches, e.g. `Active (2)`. */
+export const setFilterCounts = (buttons: Iterable<HTMLButtonElement>, counts: Record<Filter, number>): void => {
+  for (const button of buttons) {
+    const count = button.querySelector('.filter-count');
+    if (count && isFilter(button.dataset.filter)) count.textContent = `(${counts[button.dataset.filter]})`;
+  }
+};
+
 /** Shows `message` in `element`, or hides it when the message is empty. */
 export const setErrorMessage = (element: HTMLElement, message: string): void => {
   element.textContent = message;
-  element.style.display = message ? 'block' : 'none';
+  element.hidden = !message;
 };
 
 /** Adds or removes the red error styling on `input`. */

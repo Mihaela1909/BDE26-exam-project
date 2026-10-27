@@ -21,7 +21,7 @@ test('submitting empty input shows the error and does not add a todo', async (t)
 
   await t
     .expect(errorMessage.visible).ok()
-    .expect(errorMessage.innerText).eql('Please enter a todo item.')
+    .expect(errorMessage.innerText).eql('Oops — write something first.')
     .expect(input.hasClass('input-error')).ok()
     .expect(todoItems.count).eql(0);
 

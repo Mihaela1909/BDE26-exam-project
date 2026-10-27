@@ -4,6 +4,7 @@ import {
   renderTodos,
   setActiveFilter,
   setErrorMessage,
+  setFilterCounts,
   setInputError,
   type TodoItemHandlers,
 } from './render';
@@ -107,11 +108,11 @@ describe('createTodoItem', () => {
     expect(handlers.onCancel).toHaveBeenCalled();
   });
 
-  it('shows the due date, or "No date" when there is none', () => {
+  it('shows "Due <date>", or "No date" when there is none', () => {
     const withDate = createTodoItem({ ...todo, dueDate: '2026-10-30' }, createHandlers());
     const withoutDate = createTodoItem(todo, createHandlers());
 
-    expect(withDate.querySelector('.due-date')?.textContent).toBe('Fri 30 Oct');
+    expect(withDate.querySelector('.due-date')?.textContent).toBe('Due 30 Oct');
     expect(withoutDate.querySelector('.due-date')?.textContent).toBe('No date');
     expect(withoutDate.querySelector('.due-date')?.classList.contains('no-date')).toBe(true);
   });
@@ -120,6 +121,7 @@ describe('createTodoItem', () => {
     const li = createTodoItem({ ...todo, dueDate: '2026-10-26' }, createHandlers(), false, '2026-10-27');
 
     expect(li.classList.contains('overdue')).toBe(true);
+    expect(li.querySelector('.due-date')?.textContent).toBe('Overdue 26 Oct');
   });
 
   it('does not mark a completed todo as overdue', () => {
@@ -199,20 +201,35 @@ describe('setActiveFilter', () => {
   });
 });
 
+describe('setFilterCounts', () => {
+  it('shows how many todos each filter matches', () => {
+    const buttons = (['all', 'active', 'completed'] as const).map((filter) => {
+      const button = document.createElement('button');
+      button.dataset.filter = filter;
+      button.innerHTML = '<span class="filter-count"></span>';
+      return button;
+    });
+
+    setFilterCounts(buttons, { all: 4, active: 2, completed: 2 });
+
+    expect(buttons.map((button) => button.textContent)).toEqual(['(4)', '(2)', '(2)']);
+  });
+});
+
 describe('setErrorMessage', () => {
   it('shows a non-empty message', () => {
     const element = document.createElement('p');
     setErrorMessage(element, 'Oops');
 
     expect(element.textContent).toBe('Oops');
-    expect(element.style.display).toBe('block');
+    expect(element.hidden).toBe(false);
   });
 
   it('hides the element when the message is empty', () => {
     const element = document.createElement('p');
     setErrorMessage(element, '');
 
-    expect(element.style.display).toBe('none');
+    expect(element.hidden).toBe(true);
   });
 });
 

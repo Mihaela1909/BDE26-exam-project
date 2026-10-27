@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatDate, fromDateKey, getDaysFrom, isOverdue, toDateKey } from './dates';
+import { formatDate, formatShortDate, fromDateKey, getDaysFrom, isOverdue, toDateKey } from './dates';
 
 describe('toDateKey / fromDateKey', () => {
   it('turns a date into YYYY-MM-DD with leading zeros', () => {
@@ -20,6 +20,10 @@ describe('getDaysFrom', () => {
 describe('formatDate', () => {
   it('shows weekday, day and month', () => {
     expect(formatDate('2026-10-30')).toBe('Fri 30 Oct');
+  });
+
+  it('can leave out the weekday', () => {
+    expect(formatShortDate('2026-12-02')).toBe('2 Dec');
   });
 });
 
