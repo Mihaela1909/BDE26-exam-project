@@ -38,6 +38,11 @@ export class TodoStore {
     this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, text } : todo));
   }
 
+  /** Flips the todo with the given id between completed and not completed. */
+  toggleCompleted(id: number): void {
+    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+  }
+
   /** Removes the todo with the given id. Does nothing if it doesn't exist. */
   remove(id: number): void {
     this.todos = this.todos.filter((todo) => todo.id !== id);

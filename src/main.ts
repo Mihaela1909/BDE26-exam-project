@@ -8,6 +8,10 @@ const store = new TodoStore();
 let editingId: number | null = null;
 
 const handlers: TodoItemHandlers = {
+  onToggle: (id) => {
+    store.toggleCompleted(id);
+    render();
+  },
   onRemove: (id) => {
     store.remove(id);
     if (editingId === id) editingId = null;

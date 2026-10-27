@@ -4,6 +4,7 @@ import { createTodoItem, renderTodos, setErrorMessage, setInputError, type TodoI
 const todo = { id: 42, text: 'Buy milk', completed: false };
 
 const createHandlers = (): TodoItemHandlers => ({
+  onToggle: vi.fn(),
   onRemove: vi.fn(),
   onEdit: vi.fn(),
   onSave: vi.fn(),
@@ -27,6 +28,29 @@ describe('createTodoItem', () => {
     click(createTodoItem(todo, handlers), '.remove-button');
 
     expect(handlers.onRemove).toHaveBeenCalledWith(42);
+  });
+
+  it('shows a completed todo as checked and crossed out', () => {
+    const li = createTodoItem({ ...todo, completed: true }, createHandlers());
+
+    expect(li.querySelector<HTMLInputElement>('.toggle-checkbox')?.checked).toBe(true);
+    expect(li.classList.contains('completed')).toBe(true);
+  });
+
+  it('shows an open todo as unchecked and not crossed out', () => {
+    const li = createTodoItem(todo, createHandlers());
+
+    expect(li.querySelector<HTMLInputElement>('.toggle-checkbox')?.checked).toBe(false);
+    expect(li.classList.contains('completed')).toBe(false);
+  });
+
+  it('calls onToggle with the todo id when the checkbox is clicked', () => {
+    const handlers = createHandlers();
+    const checkbox = createTodoItem(todo, handlers).querySelector<HTMLInputElement>('.toggle-checkbox')!;
+
+    checkbox.dispatchEvent(new Event('change'));
+
+    expect(handlers.onToggle).toHaveBeenCalledWith(42);
   });
 
   it('calls onEdit with the todo id when edit is clicked', () => {

@@ -38,6 +38,18 @@ describe('TodoStore', () => {
     expect(store.getAll()).toEqual([{ ...first, text: 'Changed' }, second]);
   });
 
+  it('toggles only the todo with the given id between completed and not completed', () => {
+    const store = new TodoStore();
+    const first = store.add('First');
+    const second = store.add('Second');
+
+    store.toggleCompleted(first.id);
+    expect(store.getAll()).toEqual([{ ...first, completed: true }, second]);
+
+    store.toggleCompleted(first.id);
+    expect(store.getAll()).toEqual([first, second]);
+  });
+
   it('removes only the todo with the given id', () => {
     const store = new TodoStore();
     const first = store.add('First');
