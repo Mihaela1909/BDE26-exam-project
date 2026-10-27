@@ -77,6 +77,14 @@ h1 {
   flex: 1;
   overflow-wrap: anywhere;
 }
+.toggle-checkbox {
+  margin: 0 10px 0 0;
+  cursor: pointer;
+}
+.todo-item.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
 .todo-actions {
   display: flex;
   gap: 5px;

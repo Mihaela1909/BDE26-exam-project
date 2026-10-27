@@ -3,6 +3,7 @@ import { validateTodoText } from './validation';
 
 /** What the todo list items can ask the app to do. */
 export interface TodoItemHandlers {
+  onToggle: (id: number) => void;
   onRemove: (id: number) => void;
   onEdit: (id: number) => void;
   onSave: (id: number, text: string) => void;
@@ -55,10 +56,17 @@ const createEditingContent = (todo: Todo, handlers: TodoItemHandlers): HTMLEleme
 };
 
 const createViewContent = (todo: Todo, handlers: TodoItemHandlers): HTMLElement[] => {
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.className = 'toggle-checkbox';
+  checkbox.checked = todo.completed;
+  checkbox.addEventListener('change', () => handlers.onToggle(todo.id));
+
   const text = document.createElement('span');
   text.textContent = todo.text;
 
   return [
+    checkbox,
     text,
     createActions(
       createButton('edit-button', 'edit', () => handlers.onEdit(todo.id)),
@@ -74,6 +82,7 @@ const createViewContent = (todo: Todo, handlers: TodoItemHandlers): HTMLElement[
 export const createTodoItem = (todo: Todo, handlers: TodoItemHandlers, isEditing = false): HTMLLIElement => {
   const li = document.createElement('li');
   li.className = 'todo-item';
+  li.classList.toggle('completed', todo.completed);
   li.append(...(isEditing ? createEditingContent(todo, handlers) : createViewContent(todo, handlers)));
   return li;
 };
