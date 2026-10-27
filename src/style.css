@@ -255,8 +255,12 @@ h1 {
   color: #fff;
 }
 
-#clear-completed {
-  width: 100%;
+.footer-actions {
+  display: flex;
+  gap: 5px;
+}
+.footer-actions button {
+  flex: 1;
   padding: 8px;
   border: none;
   background: #6c757d;
@@ -264,7 +268,10 @@ h1 {
   border-radius: 3px;
   cursor: pointer;
 }
-#clear-completed:disabled {
+.footer-actions #clear-all {
+  background: #dc3545;
+}
+.footer-actions button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

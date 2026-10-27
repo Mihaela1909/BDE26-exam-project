@@ -4,12 +4,15 @@ import { toDateKey } from './dates';
 import { elements } from './dom';
 import { filterTodos, isFilter } from './filter';
 import { renderProgress } from './progress';
+import { load, remove, save } from './storage';
 import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
 import { TodoStore } from './TodoStore';
 import type { Filter } from './types';
-import { validateTodoText } from './validation';
+import { isTodoList, validateTodoText } from './validation';
 
-const store = new TodoStore();
+const STORAGE_KEY = 'todos';
+
+const store = new TodoStore(load(STORAGE_KEY, [], isTodoList));
 let editingId: number | null = null;
 let currentFilter: Filter = 'all';
 let selectedDueDate: string | null = null;
@@ -17,12 +20,12 @@ let selectedDueDate: string | null = null;
 const handlers: TodoItemHandlers = {
   onToggle: (id) => {
     store.toggleCompleted(id);
-    render();
+    saveAndRender();
   },
   onRemove: (id) => {
     store.remove(id);
     if (editingId === id) editingId = null;
-    render();
+    saveAndRender();
   },
   onEdit: (id) => {
     editingId = id;
@@ -31,7 +34,7 @@ const handlers: TodoItemHandlers = {
   onSave: (id, text, dueDate) => {
     store.update(id, { text, dueDate });
     editingId = null;
-    render();
+    saveAndRender();
   },
   onCancel: () => {
     editingId = null;
@@ -53,6 +56,13 @@ const render = (): void => {
   setActiveFilter(elements.filterButtons, currentFilter);
   renderProgress(elements.progress, store.getProgress());
   elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
+  elements.clearAllButton.disabled = todos.length === 0;
+};
+
+/** Call after every change to the todos, so they survive a page reload. */
+const saveAndRender = (): void => {
+  save(STORAGE_KEY, store.getAll());
+  render();
 };
 
 render();
@@ -85,6 +95,15 @@ elements.filterButtons.forEach((button) => {
 
 elements.clearCompletedButton.addEventListener('click', () => {
   store.clearCompleted();
+  saveAndRender();
+});
+
+elements.clearAllButton.addEventListener('click', () => {
+  if (!window.confirm('Delete all todos? This cannot be undone.')) return;
+
+  store.clearAll();
+  editingId = null;
+  remove(STORAGE_KEY);
   render();
 });
 
@@ -102,7 +121,7 @@ elements.todoForm.addEventListener('submit', (event: Event) => {
 
   store.add(text, selectedDueDate ?? undefined);
   selectedDueDate = null;
-  render();
+  saveAndRender();
   elements.todoInput.value = '';
   setErrorMessage(elements.errorMessage, '');
   setInputError(elements.todoInput, false);
