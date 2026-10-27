@@ -25,8 +25,8 @@ test('choosing Active shows only todos that are not completed', async (t) => {
   await t
     .expect(filterButton('Active').hasClass('active')).ok()
     .expect(todoItems.count).eql(2)
-    .expect(todoItems.nth(0).find('span').innerText).eql('Buy milk')
-    .expect(todoItems.nth(1).find('span').innerText).eql('Read book');
+    .expect(todoItems.nth(0).find('.todo-text').innerText).eql('Buy milk')
+    .expect(todoItems.nth(1).find('.todo-text').innerText).eql('Read book');
 });
 
 test('choosing Completed shows only completed todos', async (t) => {
@@ -35,7 +35,7 @@ test('choosing Completed shows only completed todos', async (t) => {
   await t
     .expect(filterButton('Completed').hasClass('active')).ok()
     .expect(todoItems.count).eql(1)
-    .expect(todoItems.nth(0).find('span').innerText).eql('Walk dog');
+    .expect(todoItems.nth(0).find('.todo-text').innerText).eql('Walk dog');
 
   await t.click(filterButton('All'));
 

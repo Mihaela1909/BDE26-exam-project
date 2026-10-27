@@ -17,7 +17,7 @@
   --container-padding: 20px;
   --container-border-radius: 5px;
   --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  --container-width: 300px;
+  --container-width: 400px;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
@@ -42,6 +42,74 @@ body {
 
 h1 {
   text-align: center;
+}
+.date-picker {
+  margin-bottom: 15px;
+}
+.date-picker-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+#clear-date {
+  border: none;
+  background: none;
+  color: #dc3545;
+  cursor: pointer;
+}
+#calendar-button {
+  margin-left: auto;
+  border: none;
+  background: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+/* Only used to open the browser's calendar from the calendar button */
+#due-date-input {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.week-strip {
+  display: flex;
+  gap: 4px;
+}
+.day-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 0;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.day-name {
+  font-size: 0.75em;
+  color: #666;
+}
+.day-number {
+  font-weight: 600;
+}
+.day-button.today {
+  border-color: #28a745;
+  background: #e8f5e9;
+}
+.day-button.selected {
+  border-color: #007bff;
+  background: #007bff;
+  color: #fff;
+}
+.day-button.selected .day-name {
+  color: #fff;
 }
 .todo-form {
   display: flex;
@@ -73,15 +141,41 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
-.todo-item span {
+.todo-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.todo-text {
   overflow-wrap: anywhere;
+}
+.due-date {
+  align-self: flex-start;
+  padding: 1px 6px;
+  font-size: 0.75em;
+  background: #e7f1ff;
+  color: #0056b3;
+  border-radius: 10px;
+}
+.due-date.no-date {
+  background: #eee;
+  color: #777;
+}
+.todo-item.overdue {
+  background: #fdecea;
+  border-left: 4px solid #dc3545;
+}
+.todo-item.overdue .due-date {
+  background: #dc3545;
+  color: #fff;
 }
 .toggle-checkbox {
   margin: 0 10px 0 0;
   cursor: pointer;
 }
-.todo-item.completed span {
+.todo-item.completed .todo-text {
   text-decoration: line-through;
   color: #888;
 }
@@ -105,6 +199,12 @@ h1 {
 }
 .todo-item .cancel-button {
   background: #6c757d;
+}
+.edit-date {
+  margin-left: 5px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 .edit-input {
   flex: 1;

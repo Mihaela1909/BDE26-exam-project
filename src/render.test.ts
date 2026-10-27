@@ -27,7 +27,7 @@ describe('createTodoItem', () => {
     const li = createTodoItem({ id: 1, text: '<img src=x onerror=alert(1)>', completed: false }, createHandlers());
 
     expect(li.querySelector('img')).toBeNull();
-    expect(li.querySelector('span')?.textContent).toBe('<img src=x onerror=alert(1)>');
+    expect(li.querySelector('.todo-text')?.textContent).toBe('<img src=x onerror=alert(1)>');
   });
 
   it('calls onRemove with the todo id when remove is clicked', () => {
@@ -70,7 +70,7 @@ describe('createTodoItem', () => {
   it('shows an input with the current text while editing', () => {
     const li = createTodoItem(todo, createHandlers(), true);
 
-    expect(li.querySelector('span')).toBeNull();
+    expect(li.querySelector('.todo-text')).toBeNull();
     expect(li.querySelector<HTMLInputElement>('.edit-input')?.value).toBe('Buy milk');
   });
 
@@ -81,7 +81,7 @@ describe('createTodoItem', () => {
 
     click(li, '.save-button');
 
-    expect(handlers.onSave).toHaveBeenCalledWith(42, 'Buy oat milk');
+    expect(handlers.onSave).toHaveBeenCalledWith(42, 'Buy oat milk', undefined);
   });
 
   it('does not save empty text and marks the input as invalid', () => {
@@ -103,8 +103,42 @@ describe('createTodoItem', () => {
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
-    expect(handlers.onSave).toHaveBeenCalledWith(42, 'Buy milk');
+    expect(handlers.onSave).toHaveBeenCalledWith(42, 'Buy milk', undefined);
     expect(handlers.onCancel).toHaveBeenCalled();
+  });
+
+  it('shows the due date, or "No date" when there is none', () => {
+    const withDate = createTodoItem({ ...todo, dueDate: '2026-10-30' }, createHandlers());
+    const withoutDate = createTodoItem(todo, createHandlers());
+
+    expect(withDate.querySelector('.due-date')?.textContent).toBe('Fri 30 Oct');
+    expect(withoutDate.querySelector('.due-date')?.textContent).toBe('No date');
+    expect(withoutDate.querySelector('.due-date')?.classList.contains('no-date')).toBe(true);
+  });
+
+  it('marks a todo with a past due date as overdue', () => {
+    const li = createTodoItem({ ...todo, dueDate: '2026-10-26' }, createHandlers(), false, '2026-10-27');
+
+    expect(li.classList.contains('overdue')).toBe(true);
+  });
+
+  it('does not mark a completed todo as overdue', () => {
+    const li = createTodoItem({ ...todo, completed: true, dueDate: '2026-10-26' }, createHandlers(), false, '2026-10-27');
+
+    expect(li.classList.contains('overdue')).toBe(false);
+  });
+
+  it('saves the changed due date from the edit date field', () => {
+    const handlers = createHandlers();
+    const li = createTodoItem({ ...todo, dueDate: '2026-10-30' }, handlers, true);
+    const dateInput = li.querySelector<HTMLInputElement>('.edit-date')!;
+
+    expect(dateInput.value).toBe('2026-10-30');
+
+    dateInput.value = '2026-11-02';
+    click(li, '.save-button');
+
+    expect(handlers.onSave).toHaveBeenCalledWith(42, 'Buy milk', '2026-11-02');
   });
 
   it('calls onCancel when cancel is clicked', () => {
@@ -129,7 +163,7 @@ describe('renderTodos', () => {
       createHandlers(),
     );
 
-    expect([...list.querySelectorAll('span')].map((span) => span.textContent)).toEqual(['First', 'Second']);
+    expect([...list.querySelectorAll('.todo-text')].map((span) => span.textContent)).toEqual(['First', 'Second']);
   });
 
   it('shows only the todo being edited as an input', () => {

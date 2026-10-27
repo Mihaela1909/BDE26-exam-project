@@ -20,22 +20,27 @@ export class TodoStore {
 
   /**
    * Adds a new, not yet completed todo.
+   * @param dueDate optional due date as `YYYY-MM-DD`
    * @returns the created todo
    */
-  add(text: string): Todo {
+  add(text: string, dueDate?: string): Todo {
     const newTodo: Todo = {
       id: this.nextId++,
       text,
       completed: false,
+      ...(dueDate && { dueDate }),
     };
 
     this.todos = [...this.todos, newTodo];
     return newTodo;
   }
 
-  /** Changes the text of the todo with the given id. Does nothing if it doesn't exist. */
-  updateText(id: number, text: string): void {
-    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, text } : todo));
+  /**
+   * Changes the text and due date of the todo with the given id. Does nothing if it doesn't exist.
+   * Passing `dueDate: undefined` removes the due date.
+   */
+  update(id: number, changes: Pick<Todo, 'text' | 'dueDate'>): void {
+    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, ...changes } : todo));
   }
 
   /** Flips the todo with the given id between completed and not completed. */

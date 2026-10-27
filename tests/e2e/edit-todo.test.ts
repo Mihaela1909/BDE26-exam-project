@@ -20,7 +20,7 @@ test('editing a todo and clicking Save shows the new text', async (t) => {
 
   await t
     .expect(editInput.exists).notOk()
-    .expect(todoItem.find('span').innerText).eql('Buy oat milk');
+    .expect(todoItem.find('.todo-text').innerText).eql('Buy oat milk');
 });
 
 test('editing a todo and clicking Cancel keeps the original text', async (t) => {
@@ -33,5 +33,5 @@ test('editing a todo and clicking Cancel keeps the original text', async (t) => 
 
   await t
     .expect(editInput.exists).notOk()
-    .expect(todoItem.find('span').innerText).eql('Buy milk');
+    .expect(todoItem.find('.todo-text').innerText).eql('Buy milk');
 });

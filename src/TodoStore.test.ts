@@ -28,14 +28,33 @@ describe('TodoStore', () => {
     expect(store.add('New').id).toBe(8);
   });
 
-  it('updates the text of only the todo with the given id', () => {
+  it('adds a todo with a due date', () => {
+    const store = new TodoStore();
+
+    expect(store.add('Buy milk', '2026-10-30')).toEqual({ id: 1, text: 'Buy milk', completed: false, dueDate: '2026-10-30' });
+  });
+
+  it('adds a todo without a due date property when none is given', () => {
+    expect(new TodoStore().add('Buy milk')).not.toHaveProperty('dueDate');
+  });
+
+  it('updates the text and due date of only the todo with the given id', () => {
     const store = new TodoStore();
     const first = store.add('First');
     const second = store.add('Second');
 
-    store.updateText(first.id, 'Changed');
+    store.update(first.id, { text: 'Changed', dueDate: '2026-11-01' });
 
-    expect(store.getAll()).toEqual([{ ...first, text: 'Changed' }, second]);
+    expect(store.getAll()).toEqual([{ ...first, text: 'Changed', dueDate: '2026-11-01' }, second]);
+  });
+
+  it('removes the due date when updating with no due date', () => {
+    const store = new TodoStore();
+    const todo = store.add('First', '2026-10-30');
+
+    store.update(todo.id, { text: 'First', dueDate: undefined });
+
+    expect(store.getAll()[0].dueDate).toBeUndefined();
   });
 
   it('toggles only the todo with the given id between completed and not completed', () => {

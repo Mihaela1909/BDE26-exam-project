@@ -37,6 +37,6 @@ test('active (not completed) todos remain after clearing', async (t) => {
 
   await t
     .expect(todoItems.count).eql(2)
-    .expect(todoItems.nth(0).find('span').innerText).eql('Buy milk')
-    .expect(todoItems.nth(1).find('span').innerText).eql('Read book');
+    .expect(todoItems.nth(0).find('.todo-text').innerText).eql('Buy milk')
+    .expect(todoItems.nth(1).find('.todo-text').innerText).eql('Read book');
 });
