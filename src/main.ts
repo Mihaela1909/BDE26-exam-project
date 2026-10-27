@@ -3,6 +3,7 @@ import { renderDatePicker } from './datePicker';
 import { toDateKey } from './dates';
 import { elements } from './dom';
 import { filterTodos, isFilter } from './filter';
+import { renderProgress } from './progress';
 import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
 import { TodoStore } from './TodoStore';
 import type { Filter } from './types';
@@ -50,6 +51,7 @@ const render = (): void => {
   renderDatePicker(elements.datePicker, today, selectedDueDate, selectDueDate);
   renderTodos(elements.todoList, filterTodos(todos, currentFilter), handlers, editingId, today);
   setActiveFilter(elements.filterButtons, currentFilter);
+  renderProgress(elements.progress, store.getProgress());
   elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
 };
 

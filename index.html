@@ -27,6 +27,13 @@
   </form>
   <p id="error-message">Please enter a todo item.</p>
 
+<div class="progress">
+  <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Completed todos" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <p class="progress-text" id="progress-text">0 of 0 done · 0%</p>
+</div>
+
 <div class="filters">
   <button type="button" class="filter-button" data-filter="all">All</button>
   <button type="button" class="filter-button" data-filter="active">Active</button>

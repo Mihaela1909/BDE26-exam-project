@@ -9,3 +9,6 @@ export interface Todo {
 
 /** Which todos the list shows. */
 export type Filter = 'all' | 'active' | 'completed';
+
+/** How many todos are completed, and how many there are in total. */
+export type Progress = [done: number, total: number];

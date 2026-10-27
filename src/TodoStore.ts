@@ -1,4 +1,4 @@
-import type { Todo } from './types';
+import type { Progress, Todo } from './types';
 
 /** Holds the todo list and all operations that change it. */
 export class TodoStore {
@@ -16,6 +16,12 @@ export class TodoStore {
   /** Returns all todos in the order they were added. */
   getAll(): readonly Todo[] {
     return this.todos;
+  }
+
+  /** Returns how many todos are completed and how many there are in total. */
+  getProgress(): Progress {
+    const done = this.todos.filter((todo) => todo.completed).length;
+    return [done, this.todos.length];
   }
 
   /**

@@ -69,6 +69,20 @@ describe('TodoStore', () => {
     expect(store.getAll()).toEqual([first, second]);
   });
 
+  it('reports progress as [done, total]', () => {
+    const store = new TodoStore([
+      { id: 1, text: 'Done', completed: true },
+      { id: 2, text: 'Open', completed: false },
+      { id: 3, text: 'Open too', completed: false },
+    ]);
+
+    expect(store.getProgress()).toEqual([1, 3]);
+  });
+
+  it('reports [0, 0] progress for an empty list', () => {
+    expect(new TodoStore().getProgress()).toEqual([0, 0]);
+  });
+
   it('removes only the todo with the given id', () => {
     const store = new TodoStore();
     const first = store.add('First');
