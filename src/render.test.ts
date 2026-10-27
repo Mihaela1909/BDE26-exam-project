@@ -1,5 +1,12 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createTodoItem, renderTodos, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
+import {
+  createTodoItem,
+  renderTodos,
+  setActiveFilter,
+  setErrorMessage,
+  setInputError,
+  type TodoItemHandlers,
+} from './render';
 
 const todo = { id: 42, text: 'Buy milk', completed: false };
 
@@ -140,6 +147,21 @@ describe('renderTodos', () => {
 
     expect(list.querySelectorAll('.edit-input')).toHaveLength(1);
     expect(list.querySelector<HTMLInputElement>('.edit-input')?.value).toBe('Second');
+  });
+});
+
+describe('setActiveFilter', () => {
+  it('highlights only the button for the chosen filter', () => {
+    const buttons = (['all', 'active', 'completed'] as const).map((filter) => {
+      const button = document.createElement('button');
+      button.dataset.filter = filter;
+      return button;
+    });
+
+    setActiveFilter(buttons, 'active');
+
+    expect(buttons.map((button) => button.classList.contains('active'))).toEqual([false, true, false]);
+    expect(buttons.map((button) => button.getAttribute('aria-pressed'))).toEqual(['false', 'true', 'false']);
   });
 });
 
