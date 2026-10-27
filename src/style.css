@@ -73,12 +73,37 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
+.todo-item span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.todo-actions {
+  display: flex;
+  gap: 5px;
+  margin-left: 10px;
+}
 .todo-item button {
   border: none;
   background: #dc3545;
   color: #fff;
   border-radius: 3px;
   cursor: pointer;
+}
+.todo-item .edit-button {
+  background: #007bff;
+}
+.todo-item .save-button {
+  background: #28a745;
+}
+.todo-item .cancel-button {
+  background: #6c757d;
+}
+.edit-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
 
