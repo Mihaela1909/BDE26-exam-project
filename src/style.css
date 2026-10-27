@@ -3,26 +3,65 @@
   --line-height: 1.5;
   --font-weight: 400;
 
-  --color-scheme: light dark;
-  --color: rgba(255, 255, 255, 0.87);
-  --background-color: #242424;
-
   --font-synthesis: none;
   --text-rendering: optimizeLegibility;
   --webkit-font-smoothing: antialiased;
   --moz-osx-font-smoothing: grayscale;
 
-  --body-background-color: #f4f4f4;
-  --container-background-color: #fff;
   --container-padding: 20px;
   --container-border-radius: 5px;
-  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   --container-width: 400px;
+
+  /* Light theme colors */
+  color-scheme: light;
+  --body-background-color: #f4f4f4;
+  --container-background-color: #fff;
+  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  --surface-color: #f9f9f9;
+  --text-color: #213547;
+  --muted-text-color: #666;
+  --border-color: #ddd;
+  --input-border-color: #ccc;
+  --on-color: #fff;
+  --accent-color: #007bff;
+  --accent-soft-color: #e7f1ff;
+  --accent-text-color: #0056b3;
+  --success-color: #28a745;
+  --success-soft-color: #e8f5e9;
+  --danger-color: #dc3545;
+  --danger-soft-color: #fdecea;
+  --neutral-color: #6c757d;
+  --neutral-soft-color: #eee;
+  --track-color: #e9ecef;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --body-background-color: #121212;
+  --container-background-color: #1e1e1e;
+  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  --surface-color: #2a2a2a;
+  --text-color: #e8e8e8;
+  --muted-text-color: #a0a0a0;
+  --border-color: #3a3a3a;
+  --input-border-color: #555;
+  --on-color: #fff;
+  --accent-color: #3d8bfd;
+  --accent-soft-color: #1c2f4a;
+  --accent-text-color: #8bb9fe;
+  --success-color: #2fb350;
+  --success-soft-color: #1d3324;
+  --danger-color: #e5535f;
+  --danger-soft-color: #3d1f22;
+  --neutral-color: #6c757d;
+  --neutral-soft-color: #333;
+  --track-color: #333;
 }
 
 body {
   font-family: var(--font-family);
   background-color: var(--body-background-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   display: flex;
@@ -40,8 +79,23 @@ body {
 }
 
 
+.header {
+  position: relative;
+}
 h1 {
   text-align: center;
+}
+#theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1em;
+  cursor: pointer;
 }
 .date-picker {
   margin-bottom: 15px;
@@ -57,7 +111,7 @@ h1 {
 #clear-date {
   border: none;
   background: none;
-  color: #dc3545;
+  color: var(--danger-color);
   cursor: pointer;
 }
 #calendar-button {
@@ -87,29 +141,30 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 5px 0;
-  border: 1px solid #ddd;
-  background: #fff;
+  border: 1px solid var(--border-color);
+  background: var(--container-background-color);
+  color: var(--text-color);
   border-radius: 5px;
   cursor: pointer;
 }
 .day-name {
   font-size: 0.75em;
-  color: #666;
+  color: var(--muted-text-color);
 }
 .day-number {
   font-weight: 600;
 }
 .day-button.today {
-  border-color: #28a745;
-  background: #e8f5e9;
+  border-color: var(--success-color);
+  background: var(--success-soft-color);
 }
 .day-button.selected {
-  border-color: #007bff;
-  background: #007bff;
-  color: #fff;
+  border-color: var(--accent-color);
+  background: var(--accent-color);
+  color: var(--on-color);
 }
 .day-button.selected .day-name {
-  color: #fff;
+  color: var(--on-color);
 }
 .todo-form {
   display: flex;
@@ -118,14 +173,16 @@ h1 {
 .todo-form input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border-color);
   border-radius: 3px;
+  background: var(--container-background-color);
+  color: var(--text-color);
 }
 .todo-form button {
   padding: 10px;
   border: none;
-  background: #28a745;
-  color: #fff;
+  background: var(--success-color);
+  color: var(--on-color);
   border-radius: 3px;
   cursor: pointer;
 }
@@ -134,9 +191,9 @@ h1 {
   padding: 0;
 }
 .todo-item {
-  background: #f9f9f9;
+  background: var(--surface-color);
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -155,21 +212,21 @@ h1 {
   align-self: flex-start;
   padding: 1px 6px;
   font-size: 0.75em;
-  background: #e7f1ff;
-  color: #0056b3;
+  background: var(--accent-soft-color);
+  color: var(--accent-text-color);
   border-radius: 10px;
 }
 .due-date.no-date {
-  background: #eee;
-  color: #777;
+  background: var(--neutral-soft-color);
+  color: var(--muted-text-color);
 }
 .todo-item.overdue {
-  background: #fdecea;
-  border-left: 4px solid #dc3545;
+  background: var(--danger-soft-color);
+  border-left: 4px solid var(--danger-color);
 }
 .todo-item.overdue .due-date {
-  background: #dc3545;
-  color: #fff;
+  background: var(--danger-color);
+  color: var(--on-color);
 }
 .toggle-checkbox {
   margin: 0 10px 0 0;
@@ -177,7 +234,7 @@ h1 {
 }
 .todo-item.completed .todo-text {
   text-decoration: line-through;
-  color: #888;
+  color: var(--muted-text-color);
 }
 .todo-actions {
   display: flex;
@@ -186,32 +243,35 @@ h1 {
 }
 .todo-item button {
   border: none;
-  background: #dc3545;
-  color: #fff;
+  background: var(--danger-color);
+  color: var(--on-color);
   border-radius: 3px;
   cursor: pointer;
 }
 .todo-item .edit-button {
-  background: #007bff;
+  background: var(--accent-color);
 }
 .todo-item .save-button {
-  background: #28a745;
+  background: var(--success-color);
 }
 .todo-item .cancel-button {
-  background: #6c757d;
+  background: var(--neutral-color);
+}
+.edit-date,
+.edit-input {
+  border: 1px solid var(--input-border-color);
+  border-radius: 3px;
+  background: var(--container-background-color);
+  color: var(--text-color);
 }
 .edit-date {
   margin-left: 5px;
   padding: 4px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 }
 .edit-input {
   flex: 1;
   min-width: 0;
   padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
 
@@ -220,20 +280,20 @@ h1 {
 }
 .progress-bar {
   height: 10px;
-  background: #e9ecef;
+  background: var(--track-color);
   border-radius: 5px;
   overflow: hidden;
 }
 .progress-fill {
   width: 0;
   height: 100%;
-  background: #28a745;
+  background: var(--success-color);
   transition: width 0.3s ease;
 }
 .progress-text {
   margin: 5px 0 0;
   font-size: 0.85em;
-  color: #555;
+  color: var(--muted-text-color);
 }
 
 .filters {
@@ -244,15 +304,15 @@ h1 {
 .filter-button {
   flex: 1;
   padding: 6px;
-  border: 1px solid #007bff;
-  background: #fff;
-  color: #007bff;
+  border: 1px solid var(--accent-color);
+  background: var(--container-background-color);
+  color: var(--accent-color);
   border-radius: 3px;
   cursor: pointer;
 }
 .filter-button.active {
-  background: #007bff;
-  color: #fff;
+  background: var(--accent-color);
+  color: var(--on-color);
 }
 
 .footer-actions {
@@ -263,13 +323,13 @@ h1 {
   flex: 1;
   padding: 8px;
   border: none;
-  background: #6c757d;
-  color: #fff;
+  background: var(--neutral-color);
+  color: var(--on-color);
   border-radius: 3px;
   cursor: pointer;
 }
 .footer-actions #clear-all {
-  background: #dc3545;
+  background: var(--danger-color);
 }
 .footer-actions button:disabled {
   opacity: 0.5;
@@ -277,12 +337,12 @@ h1 {
 }
 
 .input-error {
-  border: 2px solid red;
-  background-color: #ffe6e6; /* Optional: Light red background to indicate error */
+  border: 2px solid var(--danger-color);
+  background-color: var(--danger-soft-color);
 }
 
 #error-message {
-  color: red;
+  color: var(--danger-color);
   font-size: 0.9em;
   margin-top: 5px;
   display: none;
