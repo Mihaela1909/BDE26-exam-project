@@ -115,6 +115,20 @@ h1 {
 }
 
 
+#clear-completed {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #6c757d;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#clear-completed:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .input-error {
   border: 2px solid red;
   background-color: #ffe6e6; /* Optional: Light red background to indicate error */

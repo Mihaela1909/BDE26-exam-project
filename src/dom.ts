@@ -4,4 +4,5 @@ export const elements = {
   todoForm: document.querySelector('.todo-form') as HTMLFormElement,
   todoList: document.getElementById('todo-list') as HTMLUListElement,
   errorMessage: document.getElementById('error-message') as HTMLParagraphElement,
+  clearCompletedButton: document.getElementById('clear-completed') as HTMLButtonElement,
 };

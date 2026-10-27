@@ -60,6 +60,18 @@ describe('TodoStore', () => {
     expect(store.getAll()).toEqual([second]);
   });
 
+  it('clears only the completed todos', () => {
+    const store = new TodoStore([
+      { id: 1, text: 'Done', completed: true },
+      { id: 2, text: 'Open', completed: false },
+      { id: 3, text: 'Also done', completed: true },
+    ]);
+
+    store.clearCompleted();
+
+    expect(store.getAll()).toEqual([{ id: 2, text: 'Open', completed: false }]);
+  });
+
   it('ignores removing an id that does not exist', () => {
     const store = new TodoStore();
     store.add('Only');

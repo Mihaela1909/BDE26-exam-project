@@ -47,4 +47,9 @@ export class TodoStore {
   remove(id: number): void {
     this.todos = this.todos.filter((todo) => todo.id !== id);
   }
+
+  /** Removes all completed todos and keeps the active ones. */
+  clearCompleted(): void {
+    this.todos = this.todos.filter((todo) => !todo.completed);
+  }
 }

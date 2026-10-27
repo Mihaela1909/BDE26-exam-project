@@ -33,10 +33,18 @@ const handlers: TodoItemHandlers = {
 };
 
 const render = (): void => {
-  renderTodos(elements.todoList, store.getAll(), handlers, editingId);
+  const todos = store.getAll();
+
+  renderTodos(elements.todoList, todos, handlers, editingId);
+  elements.clearCompletedButton.disabled = !todos.some((todo) => todo.completed);
 };
 
 render();
+
+elements.clearCompletedButton.addEventListener('click', () => {
+  store.clearCompleted();
+  render();
+});
 
 elements.todoForm.addEventListener('submit', (event: Event) => {
   event.preventDefault();
