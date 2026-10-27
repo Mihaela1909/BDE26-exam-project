@@ -1,6 +1,6 @@
 import './style.css'
 import { elements } from './dom';
-import { renderTodos, setErrorMessage } from './render';
+import { renderTodos, setErrorMessage, setInputError } from './render';
 import { TodoStore } from './TodoStore';
 import { validateTodoText } from './validation';
 
@@ -23,6 +23,7 @@ elements.todoForm.addEventListener('submit', (event: Event) => {
 
   if (error) {
     setErrorMessage(elements.errorMessage, error);
+    setInputError(elements.todoInput, true);
     return;
   }
 
@@ -30,4 +31,5 @@ elements.todoForm.addEventListener('submit', (event: Event) => {
   render();
   elements.todoInput.value = '';
   setErrorMessage(elements.errorMessage, '');
+  setInputError(elements.todoInput, false);
 });
