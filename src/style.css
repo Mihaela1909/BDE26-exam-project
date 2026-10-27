@@ -68,6 +68,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  transition: background-color 0.2s ease;
 }
 
 .container {
@@ -339,6 +340,32 @@ h1 {
 .input-error {
   border: 2px solid var(--danger-color);
   background-color: var(--danger-soft-color);
+}
+
+.background-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  font-size: 0.85em;
+  color: var(--muted-text-color);
+}
+#colorPicker {
+  width: 36px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--input-border-color);
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+}
+#reset-background {
+  padding: 4px 8px;
+  border: 1px solid var(--input-border-color);
+  background: var(--surface-color);
+  color: var(--text-color);
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 #error-message {

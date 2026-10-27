@@ -1,4 +1,5 @@
 import './style.css'
+import { applyBackground, isHexColor } from './background';
 import { renderDatePicker } from './datePicker';
 import { toDateKey } from './dates';
 import { elements } from './dom';
@@ -13,6 +14,7 @@ import { isTodoList, validateTodoText } from './validation';
 
 const STORAGE_KEY = 'todos';
 const THEME_KEY = 'theme';
+const BACKGROUND_KEY = 'background';
 
 const store = new TodoStore(load(STORAGE_KEY, [], isTodoList));
 let editingId: number | null = null;
@@ -21,6 +23,7 @@ let selectedDueDate: string | null = null;
 // Without a saved choice, follow the operating system's light/dark setting
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 let theme = load(THEME_KEY, prefersDark ? Theme.Dark : Theme.Light, isTheme);
+let backgroundColor = load<string | null>(BACKGROUND_KEY, null, isHexColor);
 
 const handlers: TodoItemHandlers = {
   onToggle: (id) => {
@@ -71,12 +74,27 @@ const saveAndRender = (): void => {
 };
 
 applyTheme(document.documentElement, elements.themeToggle, theme);
+applyBackground(elements.background, backgroundColor, theme);
 render();
 
 elements.themeToggle.addEventListener('click', () => {
   theme = toggleTheme(theme);
   save(THEME_KEY, theme);
   applyTheme(document.documentElement, elements.themeToggle, theme);
+  // Without a custom color the picker should show the new theme's default
+  applyBackground(elements.background, backgroundColor, theme);
+});
+
+elements.background.picker.addEventListener('input', () => {
+  backgroundColor = elements.background.picker.value;
+  save(BACKGROUND_KEY, backgroundColor);
+  applyBackground(elements.background, backgroundColor, theme);
+});
+
+elements.background.resetButton.addEventListener('click', () => {
+  backgroundColor = null;
+  remove(BACKGROUND_KEY);
+  applyBackground(elements.background, backgroundColor, theme);
 });
 
 elements.calendarButton.addEventListener('click', () => {
