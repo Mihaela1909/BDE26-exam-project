@@ -1,73 +1,33 @@
 import './style.css'
+import { elements } from './dom';
+import { renderTodos, setErrorMessage } from './render';
+import { TodoStore } from './TodoStore';
+import { validateTodoText } from './validation';
 
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+const store = new TodoStore();
 
-let todos: Todo[] = [];
-
-const todoInput = document.getElementById('todo-input') as HTMLInputElement;
-const todoForm = document.querySelector('.todo-form') as HTMLFormElement;
-const todolist = document.getElementById('todo-list') as HTMLUListElement;
-const errorMessage = document.getElementById('error-message') as HTMLParagraphElement;
-
-const setErrorMessage = (message: string): void => {
-  errorMessage.textContent = message;
-  errorMessage.style.display = message ? 'block' : 'none';
-};
-
-const addTodo = (text: string): void => {
-  const newTodo: Todo = {
-    id: Date.now(),
-    text,
-    completed: false,
-  };
-
-  todos.push(newTodo);
-  renderTodos();
-};
-
-const addRemoveButtonListener = (li: HTMLLIElement, id: number): void => {
-  const removeButton = li.querySelector('button');
-  removeButton?.addEventListener('click', () => removeTodo(id));
-};
-
-const renderTodos = (): void => {
-  todolist.innerHTML = '';
-
-  todos.forEach((todo) => {
-    const li = document.createElement('li');
-    li.className = 'todo-item';
-    li.innerHTML = `
-      <span>${todo.text}</span>
-      <button type="button">remove</button>
-    `;
-
-    addRemoveButtonListener(li, todo.id);
-    todolist.appendChild(li);
+const render = (): void => {
+  renderTodos(elements.todoList, store.getAll(), (id) => {
+    store.remove(id);
+    render();
   });
 };
 
-const removeTodo = (id: number): void => {
-  todos = todos.filter((todo) => todo.id !== id);
-  renderTodos();
-};
+render();
 
-renderTodos();
-
-todoForm.addEventListener('submit', (event: Event) => {
+elements.todoForm.addEventListener('submit', (event: Event) => {
   event.preventDefault();
 
-  const text = todoInput.value.trim();
+  const text = elements.todoInput.value.trim();
+  const error = validateTodoText(text);
 
-  if (!text) {
-    setErrorMessage('Please enter a todo item.');
+  if (error) {
+    setErrorMessage(elements.errorMessage, error);
     return;
   }
 
-  addTodo(text);
-  todoInput.value = '';
-  setErrorMessage('');
+  store.add(text);
+  render();
+  elements.todoInput.value = '';
+  setErrorMessage(elements.errorMessage, '');
 });
