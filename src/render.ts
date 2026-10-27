@@ -13,6 +13,7 @@ export const createTodoItem = (todo: Todo, onRemove: (id: number) => void): HTML
 
   const removeButton = document.createElement('button');
   removeButton.type = 'button';
+  removeButton.className = 'remove-button';
   removeButton.textContent = 'remove';
   removeButton.addEventListener('click', () => onRemove(todo.id));
 
