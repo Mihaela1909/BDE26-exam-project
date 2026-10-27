@@ -6,16 +6,21 @@ import { filterTodos, isFilter } from './filter';
 import { renderProgress } from './progress';
 import { load, remove, save } from './storage';
 import { renderTodos, setActiveFilter, setErrorMessage, setInputError, type TodoItemHandlers } from './render';
+import { applyTheme, isTheme, Theme, toggleTheme } from './theme';
 import { TodoStore } from './TodoStore';
 import type { Filter } from './types';
 import { isTodoList, validateTodoText } from './validation';
 
 const STORAGE_KEY = 'todos';
+const THEME_KEY = 'theme';
 
 const store = new TodoStore(load(STORAGE_KEY, [], isTodoList));
 let editingId: number | null = null;
 let currentFilter: Filter = 'all';
 let selectedDueDate: string | null = null;
+// Without a saved choice, follow the operating system's light/dark setting
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+let theme = load(THEME_KEY, prefersDark ? Theme.Dark : Theme.Light, isTheme);
 
 const handlers: TodoItemHandlers = {
   onToggle: (id) => {
@@ -65,7 +70,14 @@ const saveAndRender = (): void => {
   render();
 };
 
+applyTheme(document.documentElement, elements.themeToggle, theme);
 render();
+
+elements.themeToggle.addEventListener('click', () => {
+  theme = toggleTheme(theme);
+  save(THEME_KEY, theme);
+  applyTheme(document.documentElement, elements.themeToggle, theme);
+});
 
 elements.calendarButton.addEventListener('click', () => {
   const { dateInput } = elements.datePicker;
