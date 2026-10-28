@@ -6,6 +6,8 @@ const createElements = (): DatePickerElements => ({
   clearButton: document.createElement('button'),
   weekStrip: document.createElement('div'),
   dateInput: Object.assign(document.createElement('input'), { type: 'date' }),
+  monthName: document.createElement('span'),
+  year: document.createElement('span'),
 });
 
 const dayButton = (elements: DatePickerElements, day: string): HTMLButtonElement =>
@@ -31,6 +33,14 @@ describe('renderDatePicker', () => {
     expect(elements.clearButton.hidden).toBe(false);
     expect(dayButton(elements, '2026-10-30').classList.contains('selected')).toBe(true);
     expect(dayButton(elements, '2026-10-27').classList.contains('today')).toBe(true);
+  });
+
+  it("shows today's month and year in the month tile", () => {
+    const elements = createElements();
+    renderDatePicker(elements, '2026-11-30', null, () => {});
+
+    expect(elements.monthName.textContent).toBe('Nov');
+    expect(elements.year.textContent).toBe('2026');
   });
 
   it('picks a day when it is clicked, and un-picks it when clicked again', () => {

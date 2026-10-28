@@ -12,13 +12,12 @@ export const toggleTheme = (theme: Theme): Theme => (theme === Theme.Light ? The
 
 /**
  * Switches the page to `theme` by setting `data-theme` on `root`, which swaps the CSS color variables.
- * The toggle button shows the theme it switches to.
+ * The toggle is a switch that is "on" in dark mode.
  */
 export const applyTheme = (root: HTMLElement, toggleButton: HTMLButtonElement, theme: Theme): void => {
   const isDark = theme === Theme.Dark;
 
   root.dataset.theme = theme;
-  toggleButton.textContent = isDark ? '☀️' : '🌙';
   toggleButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
   toggleButton.setAttribute('aria-pressed', String(isDark));
 };

@@ -28,7 +28,6 @@ describe('applyTheme', () => {
     applyTheme(root, button, Theme.Dark);
 
     expect(root.dataset.theme).toBe('dark');
-    expect(button.textContent).toBe('☀️');
     expect(button.getAttribute('aria-label')).toBe('Switch to light mode');
     expect(button.getAttribute('aria-pressed')).toBe('true');
   });
@@ -40,7 +39,7 @@ describe('applyTheme', () => {
     applyTheme(root, button, Theme.Light);
 
     expect(root.dataset.theme).toBe('light');
-    expect(button.textContent).toBe('🌙');
+    expect(button.getAttribute('aria-label')).toBe('Switch to dark mode');
     expect(button.getAttribute('aria-pressed')).toBe('false');
   });
 });

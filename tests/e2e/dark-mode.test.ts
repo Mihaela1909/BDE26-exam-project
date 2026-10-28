@@ -5,8 +5,8 @@ const html = Selector('html');
 const body = Selector('body');
 const themeToggle = Selector('#theme-toggle');
 
-const lightBackground = 'rgb(244, 244, 244)';
-const darkBackground = 'rgb(18, 18, 18)';
+const lightBackground = 'rgb(181, 230, 251)';
+const darkBackground = 'rgb(1, 22, 39)';
 
 // Without a saved theme the app follows the computer's light/dark setting, so start every test from light
 const saveLightTheme = ClientFunction(() => localStorage.setItem('theme', JSON.stringify('light')));

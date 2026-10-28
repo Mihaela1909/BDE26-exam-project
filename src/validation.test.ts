@@ -3,11 +3,11 @@ import { isTodoList, validateTodoText } from './validation';
 
 describe('validateTodoText', () => {
   it('rejects empty text', () => {
-    expect(validateTodoText('')).toBe('Please enter a todo item.');
+    expect(validateTodoText('')).toBe('Oops — write something first.');
   });
 
   it('rejects text with only spaces', () => {
-    expect(validateTodoText('   ')).toBe('Please enter a todo item.');
+    expect(validateTodoText('   ')).toBe('Oops — write something first.');
   });
 
   it('accepts normal text', () => {

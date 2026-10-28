@@ -3,7 +3,9 @@ import { ClientFunction, Selector } from 'testcafe';
 const url = 'http://127.0.0.1:5173';
 const body = Selector('body');
 const colorPicker = Selector('#colorPicker');
-const resetButton = Selector('#reset-background');
+const defaultSwatch = Selector('#reset-background');
+const orangeSwatch = Selector('.swatch[data-color="#e39b4f"]');
+const customSwatch = Selector('#custom-swatch');
 
 // Start from the light theme, whatever the computer's light/dark setting is
 const saveLightTheme = ClientFunction(() => localStorage.setItem('theme', JSON.stringify('light')));
@@ -21,26 +23,32 @@ fixture('Background color picker').page(url).beforeEach(async (t) => {
 });
 
 test('choosing a color changes the page background to that color', async (t) => {
-  await chooseColor('#ff8800');
+  await t.click(orangeSwatch);
 
   await t
-    .expect(body.getStyleProperty('background-color')).eql('rgb(255, 136, 0)')
-    .expect(resetButton.visible).ok();
+    .expect(body.getStyleProperty('background-color')).eql('rgb(227, 155, 79)')
+    .expect(orangeSwatch.getAttribute('aria-pressed')).eql('true');
+
+  await chooseColor('#ff0000');
+
+  await t
+    .expect(body.getStyleProperty('background-color')).eql('rgb(255, 0, 0)')
+    .expect(customSwatch.hasClass('selected')).ok();
 
   await t.navigateTo(url);
 
-  await t.expect(body.getStyleProperty('background-color')).eql('rgb(255, 136, 0)');
+  await t.expect(body.getStyleProperty('background-color')).eql('rgb(255, 0, 0)');
 
-  await t.click(resetButton);
+  await t.click(defaultSwatch);
 
   await t
-    .expect(body.getStyleProperty('background-color')).eql('rgb(244, 244, 244)')
-    .expect(resetButton.visible).notOk();
+    .expect(body.getStyleProperty('background-color')).eql('rgb(181, 230, 251)')
+    .expect(defaultSwatch.getAttribute('aria-pressed')).eql('true');
 });
 
 test('the color picker is visible and has a default value', async (t) => {
   await t
     .expect(colorPicker.visible).ok()
-    .expect(colorPicker.value).eql('#f4f4f4')
-    .expect(resetButton.visible).notOk();
+    .expect(colorPicker.value).eql('#b5e6fb')
+    .expect(defaultSwatch.getAttribute('aria-pressed')).eql('true');
 });

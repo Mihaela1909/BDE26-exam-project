@@ -6,7 +6,7 @@ import type { Todo } from './types';
  */
 export const validateTodoText = (text: string): string | null => {
   if (!text.trim()) {
-    return 'Please enter a todo item.';
+    return 'Oops — write something first.';
   }
 
   return null;

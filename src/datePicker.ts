@@ -1,7 +1,7 @@
 import { formatDate, fromDateKey, getDaysFrom } from './dates';
 
 /** How many days the week strip shows, starting with today. */
-export const WEEK_STRIP_DAYS = 8;
+export const WEEK_STRIP_DAYS = 7;
 
 /** The page elements that make up the due date picker. */
 export interface DatePickerElements {
@@ -9,6 +9,8 @@ export interface DatePickerElements {
   clearButton: HTMLButtonElement;
   weekStrip: HTMLElement;
   dateInput: HTMLInputElement;
+  monthName: HTMLElement;
+  year: HTMLElement;
 }
 
 const createDayButton = (
@@ -42,7 +44,7 @@ const createDayButton = (
 };
 
 /**
- * Draws the label and the week strip for the due date of the next todo.
+ * Draws the label, the month tile and the week strip for the due date of the next todo.
  * @param today today's date as `YYYY-MM-DD`
  * @param selected the picked due date, or `null` when none is picked
  * @param onSelect called with the clicked day, or `null` when the picked day is clicked again
@@ -56,6 +58,11 @@ export const renderDatePicker = (
   elements.label.textContent = selected ? `Due on: ${formatDate(selected)}` : 'Today is:';
   elements.clearButton.hidden = selected === null;
   elements.dateInput.value = selected ?? '';
+
+  const todayDate = fromDateKey(today);
+  elements.monthName.textContent = todayDate.toLocaleDateString('en-GB', { month: 'short' });
+  elements.year.textContent = String(todayDate.getFullYear());
+
   elements.weekStrip.replaceChildren(
     ...getDaysFrom(today, WEEK_STRIP_DAYS).map((day) => createDayButton(day, today, selected, onSelect)),
   );
