@@ -1,7 +1,41 @@
 /** The page elements the app reads from and writes to. */
 export const elements = {
+  themeToggle: document.getElementById('theme-toggle') as HTMLButtonElement,
   todoInput: document.getElementById('todo-input') as HTMLInputElement,
   todoForm: document.querySelector('.todo-form') as HTMLFormElement,
   todoList: document.getElementById('todo-list') as HTMLUListElement,
   errorMessage: document.getElementById('error-message') as HTMLParagraphElement,
+  clearCompletedButton: document.getElementById('clear-completed') as HTMLButtonElement,
+  clearAllButton: document.getElementById('clear-all') as HTMLButtonElement,
+  tasksLeft: document.getElementById('tasks-left') as HTMLParagraphElement,
+  filters: document.getElementById('filters') as HTMLDivElement,
+  filterButtons: document.querySelectorAll<HTMLButtonElement>('.filter-button'),
+  filterIndicator: document.getElementById('filter-indicator') as HTMLSpanElement,
+  decor: document.getElementById('decor') as HTMLDivElement,
+  emptyState: {
+    container: document.getElementById('empty-state') as HTMLDivElement,
+    title: document.getElementById('empty-title') as HTMLParagraphElement,
+    text: document.getElementById('empty-text') as HTMLParagraphElement,
+  },
+  progress: {
+    heading: document.getElementById('progress-heading') as HTMLHeadingElement,
+    bar: document.getElementById('progress-bar') as HTMLDivElement,
+    fill: document.getElementById('progress-fill') as HTMLDivElement,
+    text: document.getElementById('progress-text') as HTMLParagraphElement,
+  },
+  background: {
+    root: document.documentElement,
+    swatches: document.querySelectorAll<HTMLButtonElement>('button.swatch'),
+    customSwatch: document.getElementById('custom-swatch') as HTMLLabelElement,
+    picker: document.getElementById('colorPicker') as HTMLInputElement,
+  },
+  calendarButton: document.getElementById('calendar-button') as HTMLButtonElement,
+  datePicker: {
+    label: document.getElementById('date-label') as HTMLSpanElement,
+    clearButton: document.getElementById('clear-date') as HTMLButtonElement,
+    weekStrip: document.getElementById('week-strip') as HTMLDivElement,
+    dateInput: document.getElementById('due-date-input') as HTMLInputElement,
+    monthName: document.getElementById('month-name') as HTMLSpanElement,
+    year: document.getElementById('month-year') as HTMLSpanElement,
+  },
 };

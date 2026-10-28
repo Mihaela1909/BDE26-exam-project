@@ -1,4 +1,4 @@
-import type { Todo } from './types';
+import type { Progress, Todo } from './types';
 
 /** Holds the todo list and all operations that change it. */
 export class TodoStore {
@@ -18,23 +18,54 @@ export class TodoStore {
     return this.todos;
   }
 
+  /** Returns how many todos are completed and how many there are in total. */
+  getProgress(): Progress {
+    const done = this.todos.filter((todo) => todo.completed).length;
+    return [done, this.todos.length];
+  }
+
   /**
    * Adds a new, not yet completed todo.
+   * @param dueDate optional due date as `YYYY-MM-DD`
    * @returns the created todo
    */
-  add(text: string): Todo {
+  add(text: string, dueDate?: string): Todo {
     const newTodo: Todo = {
       id: this.nextId++,
       text,
       completed: false,
+      ...(dueDate && { dueDate }),
     };
 
     this.todos = [...this.todos, newTodo];
     return newTodo;
   }
 
+  /**
+   * Changes the text and due date of the todo with the given id. Does nothing if it doesn't exist.
+   * Passing `dueDate: undefined` removes the due date.
+   */
+  update(id: number, changes: Pick<Todo, 'text' | 'dueDate'>): void {
+    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, ...changes } : todo));
+  }
+
+  /** Flips the todo with the given id between completed and not completed. */
+  toggleCompleted(id: number): void {
+    this.todos = this.todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+  }
+
   /** Removes the todo with the given id. Does nothing if it doesn't exist. */
   remove(id: number): void {
     this.todos = this.todos.filter((todo) => todo.id !== id);
+  }
+
+  /** Removes all completed todos and keeps the active ones. */
+  clearCompleted(): void {
+    this.todos = this.todos.filter((todo) => !todo.completed);
+  }
+
+  /** Removes every todo. */
+  clearAll(): void {
+    this.todos = [];
   }
 }
