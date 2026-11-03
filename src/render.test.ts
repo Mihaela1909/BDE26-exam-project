@@ -109,7 +109,7 @@ describe('createTodoItem', () => {
   });
 
   it('shows "Due <date>", or "No date" when there is none', () => {
-    const withDate = createTodoItem({ ...todo, dueDate: '2026-10-30' }, createHandlers());
+    const withDate = createTodoItem({ ...todo, dueDate: '2026-10-30' }, createHandlers(), false, '2026-10-27');
     const withoutDate = createTodoItem(todo, createHandlers());
 
     expect(withDate.querySelector('.due-date')?.textContent).toBe('Due 30 Oct');
